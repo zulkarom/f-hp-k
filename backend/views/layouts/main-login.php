@@ -42,7 +42,7 @@ $dirAsset = Yii::$app->assetManager->getPublishedUrl('@backend/views/myasset');
 <div class="login-box-body">
 
     <div class="login-logo" style="font-family:verdana">
-        <b>OFFICIAL FKP</b><br /><span style="font-size:28px">STAFF PORTAL</span>
+        <b>FHPK</b><br /><span style="font-size:28px">STAFF LOGIN</span>
     </div>
 	<?= Alert::widget() ?>
 

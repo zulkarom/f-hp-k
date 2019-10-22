@@ -56,12 +56,12 @@ $this->params['breadcrumbs'][] = 'Update';
 <?= $form->field($model, 'is_dummy')->dropDownList( [ 0 => 'NO', 1 => 'YES' ] ) ?>
 
 <?= $form->field($model, 'program_id')->dropDownList(
-        ArrayHelper::map(Program::find()->where(['faculty_id' => 1, 'trash' => 0])->all(),'id', 'pro_name'), ['prompt' => 'Please Select' ]
+        ArrayHelper::map(Program::find()->where(['faculty_id' => 16, 'trash' => 0])->all(),'id', 'pro_name'), ['prompt' => 'Please Select' ]
     ) ?>
 
 <?php 
 if($model->faculty_id == 0){
-	$model->faculty_id = 1;
+	$model->faculty_id = 13;
 }
 echo $form->field($model, 'faculty_id')->dropDownList(
         ArrayHelper::map(Faculty::find()->where(['showing' => 1])->all(),'id', 'faculty_name'), ['prompt' => 'Please Select' ]

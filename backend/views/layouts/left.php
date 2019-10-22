@@ -95,9 +95,7 @@ use backend\models\Menu;
 					
 					['label' => 'e-RPD', 'icon' => 'flask', 'url' => ['/erpd'],],	
 					
-					['label' => 'JEB JOURNAL', 'icon' => 'book', 'url' => ['/site/jeb-web'], 'template'=>'<a href="{url}" target="_blank">{icon} {label}</a>'],
-					
-					['label' => 'WEBSITE', 'icon' => 'tv', 'url' => ['/website'],],
+			
 					
 					
 					[

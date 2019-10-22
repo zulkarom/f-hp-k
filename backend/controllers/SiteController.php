@@ -7,10 +7,13 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
 use common\models\Product;
-use backend\models\Customer;
+
 use backend\modules\staff\models\Staff;
 use common\models\User;
 use common\models\UserToken;
+use backend\models\StaffData;
+
+use yii\db\Expression;
 
 /**
  * Site controller
@@ -69,6 +72,35 @@ class SiteController extends Controller
 			'user' => User::findOne(Yii::$app->user->identity->id),
 		]);
     }
+	
+	public function actionRundata(){
+		/* $data = StaffData::find()->all();
+		echo time();
+		foreach($data as $u){
+			$user = new User;
+			$user->username = $u->staff_no;
+			$user->fullname = $u->fullname;
+			$user->email = $u->email;
+			$user->created_at = time();
+			$user->confirmed_at = time();
+			$user->password_hash = $u->password;
+			$user->status = 10;
+			$user->blocked_at = 0;
+			if($user->save(false)){
+				$staff = new Staff;
+				$staff->staff_title = $u->title;
+				$staff->user_id = $user->id;
+				$staff->staff_no = $u->staff_no;
+				$staff->is_academic = $u->is_academic;
+				$staff->updated_at = new Expression('NOW()');
+				if(!$staff->save(false)){
+					break;
+				}
+			}else{
+				break;
+			}
+		} */
+	}
 	
 
     /**

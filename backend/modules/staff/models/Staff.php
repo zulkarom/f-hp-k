@@ -169,7 +169,7 @@ class Staff extends \yii\db\ActiveRecord
 		return self::find()
 		->select('staff.id, user.fullname as staff_name, user.id as user_id')
 		->innerJoin('user', 'user.id = staff.user_id')
-		->where(['staff.staff_active' => 1])->orderBy('user.fullname ASC')
+		->where(['staff.staff_active' => 1, 'staff.faculty_id' => 16])->orderBy('user.fullname ASC')
 		->all();
 	}
 	
@@ -181,7 +181,7 @@ class Staff extends \yii\db\ActiveRecord
 		return self::find()
 		->select('staff.id, user.fullname as staff_name, user.id as user_id')
 		->innerJoin('user', 'user.id = staff.user_id')
-		->where(['staff.staff_active' => 1])
+		->where(['staff.staff_active' => 1, 'staff.faculty_id' => 16])
 		->andWhere(['<>', 'staff.id', Yii::$app->user->identity->staff->id])
 		->all();
 	}

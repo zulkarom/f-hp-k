@@ -129,7 +129,7 @@ include("message.php");
 					$cc = "checked";
 				}
 				
-				$dcon="<div class='form-group' id='au_1'><div class='row'><div class='col-sm-7'>".$inn."</div><div class='col-sm-3'><div class='checkboxku'><input type='checkbox' name='leadernot' id='ck_1' onchange='chkstaff(1)' ".$cc." /><label for='ck_1' class='aku'>FKP Staff </label> </div></div></div></div>" ;
+				$dcon="<div class='form-group' id='au_1'><div class='row'><div class='col-sm-7'>".$inn."</div><div class='col-sm-3'><div class='checkboxku'><input type='checkbox' name='leadernot' id='ck_1' onchange='chkstaff(1)' ".$cc." /><label for='ck_1' class='aku'>FHPK Staff </label> </div></div></div></div>" ;
 				echo $dcon;
 			}
 			
@@ -180,7 +180,7 @@ include("message.php");
 				<div class="col-sm-7">'.$input.'</div>
 				<div class="col-sm-3">';
 				
-					echo "<div class='checkboxku'><input type='checkbox' id='ck_".$i."' onchange='chkstaff(".$i.")' ".$chek." /><label for='ck_".$i."' class='aku'>FKP Staff </label> </div>";
+					echo "<div class='checkboxku'><input type='checkbox' id='ck_".$i."' onchange='chkstaff(".$i.")' ".$chek." /><label for='ck_".$i."' class='aku'>FHPK Staff </label> </div>";
 				echo '</div>
 				</div>';
 				
@@ -397,13 +397,13 @@ include("message.php");
 			function generateList(num){
 				inn = inputList(num);
 				inputc = "<div class='input-group'>"+inn+"<div class='input-group-btn'><button id='rmv_au_"+num+"' class='btn btn-default' onclick='removeInput("+num+")'><span class='glyphicon glyphicon-remove'></span> &nbsp</button></div></div>";
-				dcon="<div class='form-group' id='au_"+num+"'><div class='row'><div class='col-sm-7'>"+inputc+"</div><div class='col-sm-3'><div class='checkboxku'><input type='checkbox' id='ck_"+num+"' onchange='chkstaff("+num+")' checked /><label for='ck_"+num+"' class='aku'>FKP Staff </label> </div></div></div></div>" ;
+				dcon="<div class='form-group' id='au_"+num+"'><div class='row'><div class='col-sm-7'>"+inputc+"</div><div class='col-sm-3'><div class='checkboxku'><input type='checkbox' id='ck_"+num+"' onchange='chkstaff("+num+")' checked /><label for='ck_"+num+"' class='aku'>FHPK Staff </label> </div></div></div></div>" ;
 				return dcon;
 			}
 			
 			function leaderNot(){
 				inn = inn = inputList(1);
-				dcon="<div class='form-group' id='au_1'><div class='row'><div class='col-sm-7'>"+inn+"</div><div class='col-sm-3'><div class='checkboxku'><input type='checkbox' name='leadernot' id='ck_1' onchange='chkstaff(1)' checked /><label for='ck_1' class='aku'>FKP Staff </label> </div></div></div></div>" ;
+				dcon="<div class='form-group' id='au_1'><div class='row'><div class='col-sm-7'>"+inn+"</div><div class='col-sm-3'><div class='checkboxku'><input type='checkbox' name='leadernot' id='ck_1' onchange='chkstaff(1)' checked /><label for='ck_1' class='aku'>FHPK Staff </label> </div></div></div></div>" ;
 				return dcon;
 			}
 			

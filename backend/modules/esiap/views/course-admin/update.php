@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = 'Update';
 <?= $form->field($model, 'is_dummy')->dropDownList( [ 0 => 'NO', 1 => 'YES' ] ) ?>
 
 <?= $form->field($model, 'program_id')->dropDownList(
-        ArrayHelper::map(Program::find()->where(['faculty_id' => 16, 'trash' => 0])->all(),'id', 'pro_name'), ['prompt' => 'Please Select' ]
+        ArrayHelper::map(Program::find()->where(['faculty_id' => Yii::$app->params['faculty_id'], 'trash' => 0])->all(),'id', 'pro_name'), ['prompt' => 'Please Select' ]
     ) ?>
 
 <?php 

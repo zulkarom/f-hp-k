@@ -103,7 +103,7 @@ class Course extends \yii\db\ActiveRecord
 	}
 	
 	public static function activeCourses(){
-		return self::find()->where(['is_dummy' => 0, 'is_active' => 1, 'faculty_id' => 16])->orderBy('course_name ASC')->all();
+		return self::find()->where(['is_dummy' => 0, 'is_active' => 1, 'faculty_id' => Yii::$app->params['faculty_id']])->orderBy('course_name ASC')->all();
 	}
 	
 	public function getCodeBrCourse(){
@@ -112,7 +112,7 @@ class Course extends \yii\db\ActiveRecord
 	
 	public function allCoursesArray(){
 		$result = self::find()->orderBy('course_name ASC')
-		->where(['faculty_id' => 16, 'is_dummy' => 0])
+		->where(['faculty_id' => Yii::$app->params['faculty_id'], 'is_dummy' => 0])
 		->all();
 		$array[0] = 'Tiada / Nil';
 		foreach($result as $row){

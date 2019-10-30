@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 <?= $form->field($model, 'program_id')->dropDownList(
-        ArrayHelper::map(Program::find()->where(['faculty_id' => 16, 'trash' => 0])->all(),'id', 'pro_name'), ['prompt' => 'Please Select' ]
+        ArrayHelper::map(Program::find()->where(['faculty_id' => Yii::$app->params['faculty_id'], 'trash' => 0])->all(),'id', 'pro_name'), ['prompt' => 'Please Select' ]
     ) ?>
 
 <?php 

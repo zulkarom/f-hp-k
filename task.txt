@@ -1,0 +1,22 @@
+ALTER TABLE `sp_course` CHANGE `program_id` `program_id` INT(11) NULL;
+ALTER TABLE `sp_course_type` ADD `showing` TINYINT(1) NOT NULL AFTER `type_order`;
+UPDATE `sp_course_type` SET `showing` = '1' WHERE `sp_course_type`.`id` = 2; UPDATE `sp_course_type` SET `showing` = '1' WHERE `sp_course_type`.`id` = 3; UPDATE `sp_course_type` SET `showing` = '1' WHERE `sp_course_type`.`id` = 5;
+
+baiki link summary
+
+modify with note - research dll
+award - tag
+erpd menu user export report
+
+verify by jabatan
+
+project - continuous
+project - final project
+
+jenis kursus
+    teras fakulti
+    teras program
+    pengkhususan
+
+course summary
+  by kategori kursus - UMUM, PTG, HIEPS, BLENDED, MOOC

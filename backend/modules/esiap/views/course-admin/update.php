@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = 'Update';
 <div class="col-md-4"><?= $form->field($model, 'credit_hour')->textInput(['maxlength' => true]) ?></div>
 
 <div class="col-md-8">
-<?= $form->field($model, 'course_type')->dropDownList(ArrayHelper::map(CourseType::find()->where(['showing' => 1])->all(),'id', 'type_name'), ['prompt' => 'Please Select' ]) ?>
+<?= $form->field($model, 'course_type')->dropDownList(ArrayHelper::map(CourseType::find()->where(['showing' => 1])->orderBy('type_order ASC')->all(),'id', 'type_name'), ['prompt' => 'Please Select' ]) ?>
 </div>
 
 </div>

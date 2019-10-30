@@ -6,6 +6,7 @@ use yii\helpers\ArrayHelper;
 use backend\modules\staff\models\StaffPosition;
 use backend\modules\staff\models\StaffPositionStatus;
 use backend\modules\staff\models\StaffWorkingStatus;
+use backend\models\Department;
 use common\models\UploadFile;
 use kartik\date\DatePicker;
 use richardfan\widget\JSRegister;
@@ -55,7 +56,15 @@ if($model->id){
 <div class="row">
 <div class="col-md-3"><?= $form->field($model, 'staff_no')->textInput(['maxlength' => true]) ?></div>
 
-<div class="col-md-7"><?= $form->field($user, 'email')->textInput(['maxlength' => true]) ?>
+<div class="col-md-5"><?= $form->field($user, 'email')->textInput(['maxlength' => true]) ?>
+
+</div>
+
+<div class="col-md-4">
+
+<?= $form->field($model, 'staff_department')->dropDownList(
+        ArrayHelper::map(Department::find()->where(['>', 'id', 0])->all(),'id', 'dep_name'), ['prompt' => 'Please Select' ]
+    ) ?>
 
 </div>
 

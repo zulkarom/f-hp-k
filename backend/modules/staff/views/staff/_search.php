@@ -6,6 +6,7 @@ use backend\modules\staff\models\StaffPosition;
 use backend\modules\staff\models\StaffPositionStatus;
 use backend\modules\staff\models\StaffWorkingStatus;
 use yii\helpers\ArrayHelper;
+use backend\models\Department;
 
 /* @var $this yii\web\View */
 /* @var $model backend\modules\staff\models\StaffSearch */
@@ -34,7 +35,7 @@ Search Staff
 
 
 <div class="col-md-4">
-<?php  echo $form->field($model, 'position_id')->dropDownList( ArrayHelper::map(StaffPosition::find()->where(['>', 'id',0])->all(),'id', 'position_name'),['class'=> 'form-control','prompt' => 'All']) ?>
+<?php  echo $form->field($model, 'position_id')->dropDownList(StaffPosition::positionList(),['class'=> 'form-control','prompt' => 'All']) ?>
 
 </div>
 
@@ -59,19 +60,20 @@ Search Staff
 <?php  echo $form->field($model, 'working_status')->dropDownList( ArrayHelper::map(StaffWorkingStatus::find()->where(['>', 'id',0])->all(),'id', 'work_name'),['class'=> 'form-control','prompt' => 'All']) ?>
 </div>
 
+<div class="col-md-3">
+
+<?= $form->field($model, 'staff_department')->dropDownList(
+        ArrayHelper::map(Department::find()->where(['>', 'id', 0])->all(),'id', 'dep_name'), ['prompt' => 'Please Select' ]
+    ) ?>
+
 </div>
 
-    
-
-    
-
-  
-
+</div>
 
 
     <div class="form-group">
         <?= Html::submitButton('<span class="glyphicon glyphicon-search"></span> Search Staff', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+        <?= Html::a('Reset', ['/staff/staff'],['class' => 'btn btn-default']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

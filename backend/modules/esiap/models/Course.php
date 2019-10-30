@@ -43,13 +43,13 @@ class Course extends \yii\db\ActiveRecord
     {
         return [
 			
-			[['course_name', 'course_name_bi', 'course_code', 'credit_hour', 'is_dummy', 'faculty_id', 'program_id'], 'required', 'on' => 'create'],
+			[['course_name', 'course_name_bi', 'course_code', 'credit_hour', 'is_dummy', 'faculty_id'], 'required', 'on' => 'create'],
 			
 			
 			[['course_name', 'course_name_bi', 'course_code', 'credit_hour', 'is_dummy'], 'required', 'on' => 'update'],
 			
 			
-            [['program_id', 'department_id', 'faculty_id', 'is_dummy'], 'integer'],
+            [['program_id', 'department_id', 'faculty_id', 'is_dummy', 'course_type'], 'integer'],
 			
             [['course_name', 'course_name_bi'], 'string', 'max' => 100],
 			

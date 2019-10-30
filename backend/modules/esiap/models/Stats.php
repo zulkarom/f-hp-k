@@ -53,7 +53,7 @@ class Stats
 		return Course::find()
 		->select('sp_program.id, sp_program.pro_name as course_label, COUNT(sp_course.program_id) as course_data')
 		->joinWith(['program'])
-		->where(['sp_course.faculty_id' => 13, 'is_active' => 1])
+		->where(['sp_course.faculty_id' => Yii::$app->params['faculty_id'], 'is_active' => 1])
 		->groupBy('sp_course.program_id')
 		->all();
 		

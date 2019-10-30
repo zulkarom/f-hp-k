@@ -82,6 +82,8 @@ class Staff extends \yii\db\ActiveRecord
 			
 			
             [['user_id', 'is_academic', 'position_id', 'position_status', 'working_status',  'staff_department', 'publish', 'staff_active'], 'integer'],
+			
+			
             [['leave_start', 'leave_end', 'staff_dob', 'date_begin_umk', 'date_begin_service'], 'safe'],
 			
             [['leave_note', 'staff_interest'], 'string'],
@@ -139,7 +141,7 @@ class Staff extends \yii\db\ActiveRecord
             'image_file' => 'Staff Image',
             'staff_level' => 'Staff Level',
             'staff_interest' => 'Staff Interest',
-            'staff_department' => 'Staff Department',
+            'staff_department' => 'Department',
             'publish' => 'Publish',
             'staff_active' => 'Staff Active',
             'user_token' => 'User Token',

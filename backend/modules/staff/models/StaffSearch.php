@@ -74,6 +74,7 @@ class StaffSearch extends Staff
 			'is_academic' => $this->is_academic,
 			'position_status' => $this->position_status,
 			'working_status' => $this->working_status,
+			'staff_department' => $this->staff_department,
         ]);
 
         $query->andFilterWhere(['like', 'staff_no', $this->staff_no]);

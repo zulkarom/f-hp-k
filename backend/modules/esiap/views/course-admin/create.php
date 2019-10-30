@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php 
 if($model->faculty_id == 0){
-	$model->faculty_id = 13;
+	$model->faculty_id = Yii::$app->params['faculty_id'];
 }
 echo $form->field($model, 'faculty_id')->dropDownList(
         ArrayHelper::map(Faculty::find()->where(['showing' => 1])->all(),'id', 'faculty_name'), ['prompt' => 'Please Select' ]

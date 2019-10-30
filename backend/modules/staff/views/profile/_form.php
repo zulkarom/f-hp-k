@@ -5,6 +5,10 @@ use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use common\models\UploadFile;
+use backend\modules\staff\models\StaffPosition;
+use backend\modules\staff\models\StaffPositionStatus;
+use backend\modules\staff\models\StaffWorkingStatus;
+use backend\models\Department;
 
 /* @var $this yii\web\View */
 /* @var $model backend\modules\staff\models\Staff */
@@ -75,15 +79,49 @@ if($model->id){
 <?= $form ->field($model, 'staff_title')->label('Title')?>
 </div>
 
-<div class="col-md-7">
+<div class="col-md-4">
 
+<?= $form->field($model, 'position_id')->dropDownList(
+        StaffPosition::positionList(), ['prompt' => 'Please Select' ]
+    ) ?>
 
+</div>
+
+<div class="col-md-2">
+
+<?= $form->field($model, 'position_status')->dropDownList(
+        ArrayHelper::map(StaffPositionStatus::find()->where(['>', 'id', 0])->all(),'id', 'status_name'), ['prompt' => 'Please Select' ]
+    ) ?>
 
 </div>
 
 </div>
 
 
+
+
+
+<div class="row">
+<div class="col-md-3"><?= $form->field($model, 'is_academic')->dropDownList([1=>'Academic', 0 => 'Administrative'], ['prompt' => 'Please Select' ]
+    ) ?></div>
+
+<div class="col-md-5">
+<?= $form->field($model, 'staff_department')->dropDownList(
+        ArrayHelper::map(Department::find()->where(['>', 'id', 0])->all(),'id', 'dep_name'), ['prompt' => 'Please Select' ]
+    ) ?>
+
+</div>
+
+
+
+<div class="col-md-2">
+
+<?= $form->field($model, 'working_status')->dropDownList(
+        ArrayHelper::map(StaffWorkingStatus::find()->where(['>', 'id', 0])->all(),'id', 'work_name'), ['prompt' => 'Please Select' ]
+    ) ?>
+</div>
+
+</div>
 
 <div class="row">
 <div class="col-md-6">

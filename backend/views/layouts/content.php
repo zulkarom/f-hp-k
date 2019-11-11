@@ -36,7 +36,7 @@ use dmstr\widgets\Alert;
 </div>
 
 <footer class="main-footer">
-    Copyright &copy; 2019 <a href="#">FHPK PORTAL</a>. All rights
+    Copyright &copy; 2019 <a href="#"><?=Yii::$app->params['faculty_abbr']?> PORTAL</a>. All rights
     reserved.
 </footer>
 

@@ -24,7 +24,7 @@ $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@frontend/views/myas
  * @var dektrium\user\Module $module
  */
 
-$this->title = 'FHPK STAFF LOG IN';
+$this->title = Yii::$app->params['faculty_abbr'] . ' STAFF LOG IN';
 $this->params['breadcrumbs'][] = $this->title;
 
 

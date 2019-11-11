@@ -1,13 +1,11 @@
-award - tag
 modify with note - research dll
+button delete entry klu dalam draft/correction
 erpd menu user export report
-
-
-
-
-baiki link summary
+baiki link summary/dashboard
 verify by jabatan
-project - continuous
-project - final project
+
 course summary
   by kategori kursus - UMUM, PTG, HIEPS, BLENDED, MOOC
+
+project - continuous
+project - final project

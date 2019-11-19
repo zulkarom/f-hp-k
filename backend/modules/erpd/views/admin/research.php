@@ -124,7 +124,7 @@ $colums = [
                 'buttons'=>[
                     'update'=>function ($url, $model) {
 						if($model->status < 50){
-							return Html::a('<span class="glyphicon glyphicon-eye-open"></span> VERIFY',['/erpd/admin/view-research', 'id' => $model->id],['class'=>'btn btn-warning btn-sm']);
+							return Html::a('<span class="glyphicon glyphicon-eye-open"></span> VIEW',['/erpd/admin/view-research', 'id' => $model->id],['class'=>'btn btn-warning btn-sm']);
 						}else{
 							return Html::a('<span class="glyphicon glyphicon-search"></span> VIEW',['/erpd/admin/view-research', 'id' => $model->id],['class'=>'btn btn-default btn-sm']);
 						}

@@ -46,7 +46,8 @@ class Membership extends \yii\db\ActiveRecord
             [['msp_staff', 'msp_level'], 'integer'],
             [['date_start', 'date_end'], 'safe'],
             [['msp_body', 'msp_type'], 'string', 'max' => 500],
-            [['msp_file'], 'string', 'max' => 100],
+			
+			[['review_note', 'msp_file'], 'string'],
 			
 			[['msp_file'], 'required', 'on' => 'msp_upload'],
             [['msp_instance'], 'file', 'skipOnEmpty' => true, 'extensions' => 'pdf', 'maxSize' => 5000000],

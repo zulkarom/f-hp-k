@@ -72,6 +72,8 @@ class Publication extends \yii\db\ActiveRecord
 			
             [['pub_isbn', 'pub_organizer', 'pub_index'], 'string', 'max' => 200],
 			
+			[['review_note', 'pubupload_file'], 'string'],
+			
 			[['pubupload_file'], 'required', 'on' => 'pubupload_upload'],
             [['pubupload_instance'], 'file', 'skipOnEmpty' => true, 'extensions' => 'pdf', 'maxSize' => 5000000],
             [['modified_at'], 'required', 'on' => 'pubupload_delete'],

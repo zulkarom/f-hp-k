@@ -46,7 +46,8 @@ class Consultation extends \yii\db\ActiveRecord
             [['csl_amount'], 'number'],
             [['date_start', 'date_end'], 'safe'],
             [['csl_title', 'csl_funder'], 'string', 'max' => 500],
-            [['csl_file'], 'string', 'max' => 100],
+			
+			[['review_note', 'csl_file'], 'string'],
 			
 			[['csl_file'], 'required', 'on' => 'csl_upload'],
             [['csl_instance'], 'file', 'skipOnEmpty' => true, 'extensions' => 'pdf', 'maxSize' => 5000000],

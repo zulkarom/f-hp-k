@@ -52,3 +52,18 @@ $model->file_controller = 'publication';
     </div>
 
     <?php ActiveForm::end(); ?>
+
+
+
+<div class="box">
+<div class="box-header"></div>
+<div class="box-body">
+<?php $form = ActiveForm::begin(); ?>
+
+
+
+
+
+<?php ActiveForm::end(); ?>
+</div>
+</div>

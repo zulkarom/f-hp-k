@@ -24,6 +24,7 @@ class Membership extends \yii\db\ActiveRecord
 	public $file_controller;
 	public $year_start;
 	public $year_end;
+	public $checknoend;
 	
     /**
      * @inheritdoc
@@ -39,7 +40,7 @@ class Membership extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['msp_staff', 'msp_body', 'msp_type', 'msp_level', 'date_start', 'date_end',], 'required', 'on' => 'save'],
+            [['msp_staff', 'msp_body', 'msp_type', 'msp_level', 'date_start'], 'required', 'on' => 'save'],
 			
 			[['msp_file'], 'required', 'on' => 'submit'],
 			

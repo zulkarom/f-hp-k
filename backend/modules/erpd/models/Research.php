@@ -232,6 +232,8 @@ class Research extends \yii\db\ActiveRecord
 		}
 		return $string;
 	}
+	
+	
 
 
 }

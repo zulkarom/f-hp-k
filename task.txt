@@ -7,10 +7,15 @@ ALTER TABLE `rp_publication` ADD `review_note` TEXT NOT NULL AFTER `reviewed_by`
 ALTER TABLE `rp_award` CHANGE `awd_file` `awd_file` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
 ALTER TABLE `rp_consultation` CHANGE `csl_file` `csl_file` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
 ALTER TABLE `rp_research` CHANGE `res_file` `res_file` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+ALTER TABLE `rp_status` ADD `admin_action` TINYINT(1) NOT NULL AFTER `admin_show`;
 
+bakpo login fail xdok flash
 
+research allow update * With update notes
 
+kat index buat icon lain klu file not exist
 
+bila status correction, adakah tagged boleh edit??????
 
 modify with note - research dll
 button delete entry klu dalam draft/correction

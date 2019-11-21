@@ -138,9 +138,18 @@ class ConsultationController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        $model = $this->findModel($id);
+		if($model->csl_staff == Yii::$app->user->identity->staff->id){
+			$file = Yii::getAlias('@upload/' . $model->csl_file);
+			if (is_file($file)) {
+                unlink($file); 
+            }
+			if($model->delete()){
+				Yii::$app->session->addFlash('success', "The consultation has been successfully deleted");
+				return $this->redirect(['index']);
+			}
+			
+		}
     }
 
     /**

@@ -127,14 +127,30 @@ class CourseVersion extends \yii\db\ActiveRecord
 	
 	public function getAssessmentDirect()
     {
-		return $this->hasMany(CourseAssessment::className(), ['crs_version_id' => 'id'])->orderBy('id ASC')->innerJoin('sp_assessment_cat', 'sp_assessment_cat.id = sp_course_assessment.assess_cat')->where(['sp_assessment_cat.is_direct' => 1]);
+		return $this->hasMany(CourseAssessment::className(), ['crs_version_id' => 'id'])->orderBy('id ASC')
+		->innerJoin('sp_assessment_cat', 'sp_assessment_cat.id = sp_course_assessment.assess_cat')->where(['sp_assessment_cat.is_direct' => 1]);
         
+    }
+	
+	public function getAssessmentIndirect()
+    {
+		return $this->hasMany(CourseAssessment::className(), ['crs_version_id' => 'id'])->orderBy('id ASC')->innerJoin('sp_assessment_cat', 'sp_assessment_cat.id = sp_course_assessment.assess_cat')->where(['sp_assessment_cat.is_direct' => 0]);
+    }
+	
+	public function getAssessmentFormative()
+    {
+		return $this->hasMany(CourseAssessment::className(), ['crs_version_id' => 'id'])->orderBy('id ASC')->innerJoin('sp_assessment_cat', 'sp_assessment_cat.id = sp_course_assessment.assess_cat')->where(['sp_assessment_cat.form_sum' => 1]);
+    }
+	
+	public function getAssessmentSummative()
+    {
+		return $this->hasMany(CourseAssessment::className(), ['crs_version_id' => 'id'])->orderBy('id ASC')->innerJoin('sp_assessment_cat', 'sp_assessment_cat.id = sp_course_assessment.assess_cat')->where(['sp_assessment_cat.form_sum' => 2]);
     }
 	
 	public function getSltAssessmentFormative()
     {
 		return self::find()
-		->select('sp_course_assessment.*, SUM(sp_course_assessment.assess_f2f) AS as_hour')
+		->select('sp_course_assessment.*, SUM(sp_course_assessment.assess_f2f) + SUM(sp_course_assessment.assess_nf2f) AS as_hour')
 		->innerJoin('sp_course_assessment', 'sp_course_assessment.crs_version_id = sp_course_version.id')
 		->innerJoin('sp_assessment_cat', 'sp_assessment_cat.id = sp_course_assessment.assess_cat')
 		->groupBy(['sp_assessment_cat.form_sum'])
@@ -147,7 +163,7 @@ class CourseVersion extends \yii\db\ActiveRecord
 	public function getSltAssessmentSummative()
     {
 		return self::find()
-		->select('sp_course_assessment.*, SUM(sp_course_assessment.assess_f2f) AS as_hour')
+		->select('sp_course_assessment.*, SUM(sp_course_assessment.assess_f2f) + SUM(sp_course_assessment.assess_nf2f) AS as_hour')
 		->innerJoin('sp_course_assessment', 'sp_course_assessment.crs_version_id = sp_course_version.id')
 		->innerJoin('sp_assessment_cat', 'sp_assessment_cat.id = sp_course_assessment.assess_cat')
 		->groupBy(['sp_assessment_cat.form_sum'])
@@ -199,10 +215,7 @@ class CourseVersion extends \yii\db\ActiveRecord
 		;
     }
 	
-	public function getAssessmentIndirect()
-    {
-		return $this->hasMany(CourseAssessment::className(), ['crs_version_id' => 'id'])->orderBy('id ASC')->innerJoin('sp_assessment_cat', 'sp_assessment_cat.id = sp_course_assessment.assess_cat')->where(['sp_assessment_cat.is_direct' => 0]);
-    }
+	
 	
 	
 	public function getSyllabus()

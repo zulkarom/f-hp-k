@@ -156,7 +156,14 @@ echo $form->field($model, 'faculty_id')->dropDownList(
 
 </div>
 </div>
+<?php 
+if($model->publishedVersion){
+	$disabled = '';
+}else{
+	$disabled = ' disabled';
+}
 
+?>
 <div class="box box-info">
 <div class="box-header">
 <h3 class="box-title">PUBLISHED FK01 - FK03</h3>
@@ -176,26 +183,26 @@ echo $form->field($model, 'faculty_id')->dropDownList(
       <tr>
 		<td>1.</td>
         <td><span class="glyphicon glyphicon-file"></span> FK01 - PRO FORMA KURSUS / <i>COURSE PRO FORMA</i>                             </td>
-        <td><a href="<?=Url::to(['/esiap/course/fk1', 'course' => $model->id])?>" class="btn btn-success btn-sm" target="_blank"><span class='glyphicon glyphicon-download-alt'></span></a></td>
+        <td><a href="<?=Url::to(['/esiap/course/fk1', 'course' => $model->id])?>" class="btn btn-success btn-sm<?=$disabled?>" target="_blank"><span class='glyphicon glyphicon-download-alt'></span></a></td>
 		
       </tr>
 	  <tr>
 	  <td>2.</td>
         <td><span class="glyphicon glyphicon-file"></span> FK02 - MAKLUMAT KURSUS / <i>COURSE INFORMATION </i>                               </td>
-        <td><a href="<?=Url::to(['/esiap/course/fk2', 'course' => $model->id])?>" class="btn btn-success btn-sm" target="_blank"><span class='glyphicon glyphicon-download-alt'></span></a></td>
+        <td><a href="<?=Url::to(['/esiap/course/fk2', 'course' => $model->id])?>" class="btn btn-success btn-sm<?=$disabled?>" target="_blank"><span class='glyphicon glyphicon-download-alt'></span></a></td>
 		
       </tr>
 	  <tr>
 	  <td>3.</td>
         <td><span class="glyphicon glyphicon-file"></span> FK03 - PENJAJARAN KONSTRUKTIF / <i>CONSTRUCTIVE ALIGNMENT       </i>                         </td>
-        <td><a href="<?=Url::to(['/esiap/course/fk3', 'course' => $model->id])?>" class="btn btn-success btn-sm" target="_blank"><span class='glyphicon glyphicon-download-alt'></span></a></td>
+        <td><a href="<?=Url::to(['/esiap/course/fk3', 'course' => $model->id])?>" class="btn btn-success btn-sm<?=$disabled?>" target="_blank"><span class='glyphicon glyphicon-download-alt'></span></a></td>
 		
       </tr>
 	  
 	  <tr>
 	  <td>4.</td>
         <td><span class="glyphicon glyphicon-file"></span> TABLE 4 - MAKLUMAT KURSUS / <i>COURSE INFORMATION </i>                               </td>
-        <td><a href="<?=Url::to(['/esiap/course/tbl4', 'course' => $model->id])?>" class="btn btn-success btn-sm" target="_blank"><span class='glyphicon glyphicon-download-alt'></span></a></td>
+        <td><a href="<?=Url::to(['/esiap/course/tbl4', 'course' => $model->id])?>" class="btn btn-success btn-sm<?=$disabled?>" target="_blank"><span class='glyphicon glyphicon-download-alt'></span></a></td>
 		
       </tr>
       

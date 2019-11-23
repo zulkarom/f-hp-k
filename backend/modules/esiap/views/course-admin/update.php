@@ -192,12 +192,12 @@ echo $form->field($model, 'faculty_id')->dropDownList(
 		
       </tr>
 	  
-	  <!-- <tr>
+	  <tr>
 	  <td>4.</td>
         <td><span class="glyphicon glyphicon-file"></span> TABLE 4 - MAKLUMAT KURSUS / <i>COURSE INFORMATION </i>                               </td>
         <td><a href="<?=Url::to(['/esiap/course/tbl4', 'course' => $model->id])?>" class="btn btn-success btn-sm" target="_blank"><span class='glyphicon glyphicon-download-alt'></span></a></td>
 		
-      </tr> -->
+      </tr>
       
     </tbody>
   </table>
@@ -467,11 +467,11 @@ echo $form->field($model, 'faculty_id')->dropDownList(
 		<td><a href="<?=Url::to(['/esiap/course/fk3', 'course' => $model->id,  'dev' => 1])?>" class="btn btn-warning btn-sm" target="_blank"><span class='glyphicon glyphicon-download-alt'></span></a></td>
       </tr>
 	  
-	  <!-- <tr>
+	  <tr>
 	  <td>4.</td>
         <td><span class="glyphicon glyphicon-file"></span> TABLE 4 - MAKLUMAT KURSUS / <i>COURSE INFORMATION </i>		
 		<td><a href="<?=Url::to(['/esiap/course/tbl4', 'course' => $model->id,  'dev' => 1])?>" class="btn btn-warning btn-sm" target="_blank"><span class='glyphicon glyphicon-download-alt'></span></a></td>
-      </tr> -->
+      </tr> 
       
     </tbody>
   </table>

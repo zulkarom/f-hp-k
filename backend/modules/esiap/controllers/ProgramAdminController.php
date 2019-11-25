@@ -68,14 +68,20 @@ class ProgramAdminController extends Controller
 	public function actionProgramVersionCreate($program)
     {
         $model = new ProgramVersion();
-		$model->scenario = 'update';
+		$model->scenario = 'create';
 		$program_model = $this->findModel($program);
 
         if ($model->load(Yii::$app->request->post())) {
-			$model->faculty_id = Yii::$app->params['faculty_id'];
+			$model->program_id = $program;
+			$model->created_at = new Expression('NOW()');
+			$model->created_by = Yii::$app->user->identity->id;
 			if($model->save()){
-				return $this->redirect(['index']);
+				Yii::$app->session->addFlash('success', "Version Added");
+				return $this->redirect(['program-version', 'program' => $program]);
+			}else{
+				$model->flashError();
 			}
+			
             
         }
 

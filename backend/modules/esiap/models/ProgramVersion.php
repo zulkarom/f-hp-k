@@ -145,4 +145,18 @@ class ProgramVersion extends \yii\db\ActiveRecord
 	public function getStatusArray(){
 		return [0=>'DRAFT', 10=>'SUBMITTED', 20 => 'VERIFIED'];
 	}
+	
+	public function flashError(){
+        if($this->getErrors()){
+            foreach($this->getErrors() as $error){
+                if($error){
+                    foreach($error as $e){
+                        Yii::$app->session->addFlash('error', $e);
+                    }
+                }
+            }
+        }
+
+    }
+
 }

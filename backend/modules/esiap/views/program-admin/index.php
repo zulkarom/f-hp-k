@@ -68,10 +68,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 //'visible' => false,
                 'buttons'=>[
                     'update'=>function ($url, $model) {
-                        return Html::a('<span class="glyphicon glyphicon-pencil"></span> UPDATE',['/esiap/program/update/', 'id' => $model->id],['class'=>'btn btn-warning btn-sm']);
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span> UPDATE',['/esiap/program-admin/update/', 'id' => $model->id],['class'=>'btn btn-warning btn-sm']);
                     },
 					'delete'=>function ($url, $model) {
-                        return Html::a('<span class="glyphicon glyphicon-trash"></span>',['/esiap/program/delete/', 'id' => $model->id],['class'=>'btn btn-danger btn-sm', 'data' => [
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>',['/esiap/program-admin/delete/', 'id' => $model->id],['class'=>'btn btn-danger btn-sm', 'data' => [
                 'confirm' => 'Are you sure to delete this event?'
             ],
 ]);

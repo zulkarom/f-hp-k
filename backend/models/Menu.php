@@ -5,11 +5,46 @@ namespace backend\models;
 use Yii;
 use common\models\Todo;
 use backend\modules\esiap\models\Course;
+use backend\modules\esiap\models\Program;
 use backend\modules\erpd\models\Stats as ErpdStats;
 
 class Menu
 {
-	
+	public static function programFocus(){
+		$program_focus = '';
+		if(Yii::$app->controller->id == 'program' and Yii::$app->controller->module->id == 'esiap'){
+			switch(Yii::$app->controller->action->id){
+				case 'update': case 'report':case 'structure':
+				
+				$program_id = Yii::$app->getRequest()->getQueryParam('program');
+				$program = Program::findOne($program_id);
+				$version = $program->developmentVersion;
+				$status = $version->status;
+				$show = false;
+				if($status == 0 and $program->IAmProgramPic()){
+					$show = true;
+				}
+				$program_focus  = [
+					'label' => $program->pro_name_short,
+					'icon' => 'book',
+					'format' => 'html',
+					'url' => '#',
+					'items' => [
+						
+				['label' => 'Program Information', 'visible' => $show, 'icon' => 'pencil', 'url' => ['/esiap/program/update', 'program' => $program_id]],
+				
+				['label' => 'Program Structure', 'visible' => $show, 'icon' => 'pencil', 'url' => ['/esiap/program/structure', 'program' => $program_id]],
+				
+				['label' => 'Preview & Submit', 'icon' => 'book', 'url' => ['/esiap/program/report', 'program' => $program_id]],
+
+                 ]
+                    ];
+				break;
+			}
+		}
+		
+		return $program_focus;
+	}
 	
 	public static function courseFocus(){
 		$course_focus = '';
@@ -159,7 +194,7 @@ class Menu
 						
 				['label' => 'Summary', 'icon' => 'pie-chart', 'url' => ['/esiap/dashboard']],
 				
-				['label' => 'Program List', 'icon' => 'book', 'url' => ['/esiap/program']],
+				['label' => 'Program List', 'icon' => 'book', 'url' => ['/esiap/program-admin']],
 				
 				['label' => 'Course List', 'icon' => 'book', 'url' => ['/esiap/course-admin']],
 				

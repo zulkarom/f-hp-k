@@ -12,12 +12,12 @@ use backend\models\Department;
 /* @var $model backend\modules\esiap\models\Program */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
+  <?php $form = ActiveForm::begin(); ?>
 <div class="box">
 <div class="box-header"></div>
 <div class="box-body"><div class="program-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+  
 
     <?= $form->field($model, 'pro_name')->textInput(['maxlength' => true]) ?>
 
@@ -83,10 +83,15 @@ use backend\models\Department;
 </div>
 
 
-    <div class="form-group">
-        <?= Html::submitButton('<i class="fa fa-save"> </i> SAVE PROGRAM INFO', ['class' => 'btn btn-primary']) ?>
+   
+
+ 
+
+</div></div>
+
+ <div class="form-group">
+        <?= Html::submitButton('<i class="fa fa-save"> </i> SAVE PROGRAM', ['class' => 'btn btn-primary']) ?>
     </div>
 
-    <?php ActiveForm::end(); ?>
 
-</div>
+   <?php ActiveForm::end(); ?>

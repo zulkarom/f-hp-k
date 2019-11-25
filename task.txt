@@ -1,3 +1,6 @@
+ALTER TABLE `sp_program` ADD `updated_at` DATETIME NOT NULL AFTER `career_bi`;
+
+
 
 bakpo login fail xdok flash
 

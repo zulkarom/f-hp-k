@@ -29,7 +29,7 @@ class CourseVersion extends \yii\db\ActiveRecord
 	public $delivery_name;
 	public $delivery_name_bi;
 	public $as_hour;
-	public $duplicate = 1;
+	public $duplicate = 0;
 	public $dup_course;
 	public $dup_version;
 	

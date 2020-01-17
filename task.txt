@@ -1,6 +1,14 @@
-program version delete belum buat tu
+===============meeting liza========================
+esiap code kursus dlm duplicate
+tag consultation
+file publication utk bukti index  e.g scopus/isi 
 
-bakpo login fail xdok flash
+delete duplicate utk personal
+===================================================
+
+nak delete kursus
+
+program version delete belum buat tu
 
 research allow update * With update notes
 

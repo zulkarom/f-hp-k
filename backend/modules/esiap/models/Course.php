@@ -27,6 +27,7 @@ class Course extends \yii\db\ActiveRecord
 {
 	public $course_label;
 	public $course_data;
+	public $course_code_name;
 	
     /**
      * @inheritdoc
@@ -104,6 +105,14 @@ class Course extends \yii\db\ActiveRecord
 	
 	public static function activeCourses(){
 		return self::find()->where(['is_dummy' => 0, 'is_active' => 1, 'faculty_id' => Yii::$app->params['faculty_id']])->orderBy('course_name ASC')->all();
+	}
+	
+	public static function activeCoursesNameCode(){
+		return self::find()
+		->select(['id', 'concat(course_code, " - ", course_name) AS course_code_name'])
+		->where(['is_dummy' => 0, 'is_active' => 1, 'faculty_id' => Yii::$app->params['faculty_id']])
+		->orderBy('course_name ASC')
+		->all();
 	}
 	
 	public function getCodeBrCourse(){

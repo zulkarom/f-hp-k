@@ -25,19 +25,17 @@ class LoginForm extends BaseLoginForm
         return $labels;
     }
 	
-	public function beforeValidate()
-    {
-        $validate = parent::beforeValidate();
-		$staff = Staff::findOne(['user_id' => $this->user->id]);
-		if($staff){
-			return true;
+	public function login(){
+		if(parent::login()){
+			$staff = Staff::findOne(['user_id' => $this->user->id]);
+			if($staff){
+				return true;
+			}else{
+				$this->addError('password', \Yii::t('user', 'Staff Access Only'));
+				return false;
+			}
 		}else{
-			$this->addError('password', \Yii::t('user', 'Staff Access Only'));
 			return false;
 		}
-    }
-	
-
-	
-	
+	}
 }

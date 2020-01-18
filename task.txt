@@ -1,9 +1,11 @@
-===============meeting liza========================
-esiap code kursus dlm duplicate
-tag consultation
-file publication utk bukti index  e.g scopus/isi 
+ALTER TABLE `rp_publication` ADD `pubother_file` TEXT NOT NULL AFTER `pubupload_file`;
 
+===============meeting liza========================
+after
 delete duplicate utk personal
+
+bila mintak modify, author kena bagi nota sikit apa yg dah buat
+dekat yg ada tag tu kena ada colum utk list tag
 ===================================================
 
 nak delete kursus
@@ -16,7 +18,6 @@ kat index buat icon lain klu file not exist
 
 bila status correction, adakah tagged boleh edit??????
 
-modify with note - research dll
 button delete entry klu dalam draft/correction
 erpd menu user export report
 baiki link summary/dashboard

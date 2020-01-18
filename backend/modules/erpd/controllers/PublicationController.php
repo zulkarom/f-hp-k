@@ -477,7 +477,7 @@ class PublicationController extends Controller
     }
 
 	protected function clean($string){
-		$allowed = ['pubupload'];
+		$allowed = ['pubupload', 'pubother'];
 		
 		foreach($allowed as $a){
 			if($string == $a){

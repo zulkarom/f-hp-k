@@ -281,8 +281,18 @@ class CourseAdminController extends Controller
         $model = new Course();
 		$model->scenario = 'create';
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect('index');
+        if ($model->load(Yii::$app->request->post())) {
+			$code = Course::findOne(['course_code' => $model->course_code]);
+			if($code){
+				Yii::$app->session->addFlash('error', "The course code has already exist!");
+			}else{
+				if($model->save()){
+					Yii::$app->session->addFlash('success', "A new course has been successfully created");
+					return $this->redirect('index');
+				}
+			}
+			
+            
         }
 
         return $this->render('create', [

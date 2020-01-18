@@ -1,11 +1,12 @@
-ALTER TABLE `rp_publication` ADD `pubother_file` TEXT NOT NULL AFTER `pubupload_file`;
-
+UPDATE `sp_assessment_cat` SET `cat_name` = 'Projek (Continuous Assessment)', `cat_name_bi` = 'Project (Continuous Assessment)' WHERE `sp_assessment_cat`.`id` = 6;
+UPDATE `sp_assessment_cat` SET `cat_name` = 'Projek (Final Assessment)', `cat_name_bi` = 'Project (Final Assessment)' WHERE `sp_assessment_cat`.`id` = 7;
 ===============meeting liza========================
 after
 delete duplicate utk personal
 
 bila mintak modify, author kena bagi nota sikit apa yg dah buat
 dekat yg ada tag tu kena ada colum utk list tag
+trash course
 ===================================================
 
 nak delete kursus

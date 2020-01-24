@@ -33,6 +33,12 @@ class Menu
 						
 				['label' => 'Program Information', 'visible' => $show, 'icon' => 'pencil', 'url' => ['/esiap/program/update', 'program' => $program_id]],
 				
+				['label' => 'Program PEO', 'visible' => $show, 'icon' => 'pencil', 'url' => ['/esiap/program/peo', 'program' => $program_id]],
+				
+				['label' => 'Program PLO', 'visible' => $show, 'icon' => 'pencil', 'url' => ['/esiap/program/plo', 'program' => $program_id]],
+				
+				['label' => 'PEO vs. PLO', 'visible' => $show, 'icon' => 'pencil', 'url' => ['/esiap/program/peo', 'program' => $program_id]],
+				
 				['label' => 'Program Structure', 'visible' => $show, 'icon' => 'pencil', 'url' => ['/esiap/program/structure', 'program' => $program_id]],
 				
 				['label' => 'Preview & Submit', 'icon' => 'book', 'url' => ['/esiap/program/report', 'program' => $program_id]],

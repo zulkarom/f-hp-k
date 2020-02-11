@@ -16,6 +16,8 @@ use backend\modules\esiap\models\CourseVersionSearch;
 use backend\modules\esiap\models\CourseReference;
 use backend\modules\esiap\models\CourseCloDelivery;
 use backend\modules\esiap\models\CourseVersionClone;
+use backend\modules\esiap\models\CourseTransferable;
+use backend\modules\esiap\models\CourseStaff;
 use backend\modules\esiap\models\Fk1;
 use backend\modules\esiap\models\Fk2;
 use backend\modules\esiap\models\Fk3;
@@ -123,10 +125,10 @@ class CourseController extends Controller
 	 public function actionReport($course)
     {
         $model = $this->findModel($course);
-		
 		$version = $model->developmentVersion;
 
         if ($version->load(Yii::$app->request->post())) {
+			$version->prepared_at = new Expression('NOW()');
 			$version->status = 10;
 			if($version->save()){
 				return $this->redirect(['course/report','course' => $course]);
@@ -162,14 +164,91 @@ class CourseController extends Controller
     {
         $model = $this->findProfile($course);
 		$model->scenario = 'update';
+		$transferables = $model->transferables;
+		$staffs = $model->academicStaff;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			Yii::$app->session->addFlash('success', "Data Updated");
-            return $this->redirect(['profile', 'course' => $course]);
+        if ($model->load(Yii::$app->request->post())) {
+            
+            $model->updated_at = new Expression('NOW()');    
+            
+            $oldIDs = ArrayHelper::map($transferables, 'id', 'id');
+			$staff_oldIDs = ArrayHelper::map($staffs, 'id', 'id');
+            
+            $transferables = Model::createMultiple(CourseTransferable::classname(), $transferables);
+			$staffs = Model::createMultiple(CourseStaff::classname(), $staffs);
+            
+            Model::loadMultiple($transferables, Yii::$app->request->post());
+			Model::loadMultiple($staffs, Yii::$app->request->post());
+            
+            $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($transferables, 'id', 'id')));
+			$staff_deletedIDs = array_diff($staff_oldIDs, array_filter(ArrayHelper::map($staffs, 'id', 'id')));
+            
+			foreach ($transferables as $i => $t) {
+                $t->transfer_order = $i;
+            }
+			foreach ($staffs as $i => $s) {
+                $s->staff_order = $i;
+            }
+
+			
+            $valid = $model->validate();
+            $valid = Model::validateMultiple($transferables) && $valid;
+			$valid = Model::validateMultiple($staffs) && $valid;
+            
+            if ($valid) {
+
+                $transaction = Yii::$app->db->beginTransaction();
+                try {
+                    if ($flag = $model->save(false)) {
+                        if (! empty($deletedIDs)) {
+                            CourseTransferable::deleteAll(['id' => $deletedIDs]);
+                        }
+						if (! empty($deletedIDs)) {
+                            CourseStaff::deleteAll(['id' => $staff_deletedIDs]);
+                        }
+                        foreach ($transferables as $i => $transfer) {
+                            if ($flag === false) {
+                                break;
+                            }
+                            //do not validate this in model
+                            $transfer->crs_version_id = $model->crs_version_id;
+
+                            if (!($flag = $transfer->save(false))) {
+                                break;
+                            }
+                        }
+						foreach ($staffs as $i => $staff) {
+                            if ($flag === false) {
+                                break;
+                            }
+                            //do not validate this in model
+                            $staff->crs_version_id = $model->crs_version_id;
+
+                            if (!($flag = $staff->save(false))) {
+                                break;
+                            }
+                        }
+
+                    }
+
+                    if ($flag) {
+                        $transaction->commit();
+                            Yii::$app->session->addFlash('success', "Course Profile updated");
+                            return $this->redirect(['profile', 'course' => $course]);
+                    } else {
+                        $transaction->rollBack();
+                    }
+                } catch (Exception $e) {
+                    $transaction->rollBack();
+                    
+                }
+            }
         }
 
         return $this->render('profile', [
             'model' => $model,
+			'transferables' => (empty($transferables)) ? [new CourseTransferable] : $transferables,
+			'staffs' => (empty($staffs)) ? [new CourseStaff] : $staffs
         ]);
     }
 	
@@ -543,13 +622,15 @@ class CourseController extends Controller
 		$model = $this->findDevelopmentVersion($course);
 		$slt = $model->slt;
 		$syll = $model->syllabus;
+		
 		if ($model->load(Yii::$app->request->post())) {
-			
+	
 			if(Yii::$app->request->validateCsrfToken()){
 				$post_slt = Yii::$app->request->post('slt');
 				foreach($post_slt as $key => $val){
 				$slt->{$key} = $val;
 				}
+				$slt->is_practical = Yii::$app->request->post('is_practical');
 				$slt->save();
 				
 				$post_assess = Yii::$app->request->post('assess');
@@ -752,6 +833,15 @@ class CourseController extends Controller
 		}
 	}
 	
+	protected function findVersion($id){
+		$default = CourseVersion::findOne($id);
+		if($default){
+			return $default;
+		}else{
+			throw new NotFoundHttpException('Page not found!');
+		}
+	}
+	
 	protected function findPublishedVersion($id){
 		$default = CourseVersion::findOne(['course_id' => $id, 'is_published' => 1]);
 		if($default){
@@ -779,9 +869,11 @@ class CourseController extends Controller
 		}
     }
 	
-	public function actionFk1($course, $dev = false){
-		if($dev){
+	public function actionFk1($course, $dev = false, $version = false){
+		if($version){
 			//control access
+			$model = $this->findVersion($version);
+		}else if($dev){
 			$model = $this->findDevelopmentVersion($course);
 		}else{
 			$model = $this->findPublishedVersion($course);
@@ -792,9 +884,11 @@ class CourseController extends Controller
 			$pdf->generatePdf();
 	}
 	
-	public function actionFk2($course, $dev = false){
-		if($dev){
+	public function actionFk2($course, $dev = false, $version = false){
+		if($version){
 			//control access
+			$model = $this->findVersion($version);
+		}else if($dev){
 			$model = $this->findDevelopmentVersion($course);
 		}else{
 			$model = $this->findPublishedVersion($course);
@@ -804,9 +898,11 @@ class CourseController extends Controller
 			$pdf->generatePdf();
 	}
 	
-	public function actionTbl4($course, $dev = false){
-		if($dev){
+	public function actionTbl4($course, $dev = false, $version = false){
+		if($version){
 			//control access
+			$model = $this->findVersion($version);
+		}else if($dev){
 			$model = $this->findDevelopmentVersion($course);
 		}else{
 			$model = $this->findPublishedVersion($course);
@@ -816,9 +912,11 @@ class CourseController extends Controller
 			$pdf->generatePdf();
 	}
 	
-	public function actionFk3($course, $dev = false){
-		if($dev){
+	public function actionFk3($course, $dev = false, $version = false){
+		if($version){
 			//control access
+			$model = $this->findVersion($version);
+		}else if($dev){
 			$model = $this->findDevelopmentVersion($course);
 		}else{
 			$model = $this->findPublishedVersion($course);

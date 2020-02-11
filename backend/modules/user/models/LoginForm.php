@@ -31,7 +31,8 @@ class LoginForm extends BaseLoginForm
 			if($staff){
 				return true;
 			}else{
-				$this->addError('password', \Yii::t('user', 'Staff Access Only'));
+				\Yii::$app->user->logout();
+				$this->addError('password', \Yii::t('user', 'Access Denied'));
 				return false;
 			}
 		}else{

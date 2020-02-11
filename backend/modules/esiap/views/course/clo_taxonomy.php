@@ -12,7 +12,7 @@ use yii\helpers\Url;
 $this->title = 'Taxonomy: ' . $model->course->course_name . ' '. $model->course->course_code;
 $this->params['breadcrumbs'][] = ['label' => 'Courses', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Taxonomy';
-$plo_num = $model->plo_num;
+$plo_num = $model->ploNumber;
 $form = ActiveForm::begin(['id' => 'form-clo-plo']);
 echo $form->field($model, 'updated_at')->hiddenInput(['value' => time()])->label(false);
 ?>
@@ -45,7 +45,7 @@ if($clos){
 		echo '<td style="vertical-align:middle;" >CLO'.$x.'</td>';
 		echo '<td style="vertical-align:middle;">' . $clo->clo_text . '<br /><i>'.$clo->clo_text_bi.'</i>
 		<br />
-		('.$clo->plo .')
+		'.$clo->taxoPloBracket .'
 		</td>';
 		echo '<td>';
 		

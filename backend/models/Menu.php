@@ -193,16 +193,21 @@ class Menu
 	public static function adminEsiap(){
 		$esiap_admin = [
                         'label' => 'eSIAP Admin',
-                        'icon' => 'list-ul',
+                        'icon' => 'mortar-board',
 						'visible' => Yii::$app->user->can('esiap-management'),
                         'url' => '#',
                         'items' => [
-						
+				['label' => 'My Course(s)', 'icon' => 'user', 'url' => ['/esiap']],
+				
 				['label' => 'Summary', 'icon' => 'pie-chart', 'url' => ['/esiap/dashboard']],
+				
+				
 				
 				['label' => 'Program List', 'icon' => 'book', 'url' => ['/esiap/program-admin']],
 				
 				['label' => 'Course List', 'icon' => 'book', 'url' => ['/esiap/course-admin']],
+				
+				['label' => 'Inactive Courses', 'icon' => 'remove', 'url' => ['/esiap/course-admin/inactive']],
 				
 
                  ]

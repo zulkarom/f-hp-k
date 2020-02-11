@@ -18,11 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="course-version-form">
 
-    <?php $form = ActiveForm::begin(); ?>
-
-<div class="box">
-<div class="box-header"></div>
-<div class="box-body">    
+    <?php $form = ActiveForm::begin(['id' => 'new-version-form']); ?> 
 
 <?= $form->field($model, 'version_name')->textInput(['maxlength' => true]) ?>
 
@@ -40,11 +36,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="col-md-2"><?php 
 
-if((!$model->plo_num) or $model->plo_num == 0){
-	$model->plo_num = $model->defaultPloNumber;
-}
 
-echo $form->field($model, 'plo_num')->dropDownList( $model->ploNumberArray ) ?>
+
+echo $form->field($model, 'version_type_id')->dropDownList($model->versionTypeList) ?> 
 </div>
 
 
@@ -70,9 +64,7 @@ echo $form->field($model, 'dup_course')->dropDownList(ArrayHelper::map(Course::a
 
 </div>
 
-</div>
 
-</div>
 
     <div class="form-group">
         <?= Html::submitButton('CREATE COURSE VERSION', ['class' => 'btn btn-primary']) ?>

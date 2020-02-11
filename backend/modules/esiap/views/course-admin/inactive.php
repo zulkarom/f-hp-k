@@ -8,7 +8,7 @@ use kartik\export\ExportMenu;
 /* @var $searchModel backend\modules\esiap\models\CourseSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Courses';
+$this->title = 'Inactive Courses';
 $this->params['breadcrumbs'][] = $this->title;
 
 
@@ -24,35 +24,7 @@ $exportColumns = [
 				'label' => 'Program',
 			],
 			
-            [
-                'label' => 'Published',
-                'format' => 'html',
-                'value' => function($model){
-					if($model->publishedVersion){
-						$lbl = 'YES';
-						$color = 'success';
-					}else{
-						$lbl =  'NO';
-						$color = 'danger';
-					}
-					
-					return '<span class="label label-'.$color.'">'.$lbl.'</span>';
-                    
-                }
-            ],
-			[
-                'label' => 'Dev Status',
-                'format' => 'html',
-                
-                'value' => function($model){
-					if($model->developmentVersion){
-						return $model->developmentVersion->labelStatus;
-					}else{
-						return 'NONE';
-					}
-                    
-                }
-            ],
+            
 
 ];
 ?>
@@ -115,38 +87,9 @@ $exportColumns = [
 				}
 				
 			],
-            [
-                'label' => 'Published',
-                'format' => 'html',
-                'value' => function($model){
-					if($model->publishedVersion){
-						$lbl = 'YES';
-						$color = 'success';
-					}else{
-						$lbl =  'NO';
-						$color = 'danger';
-					}
-					
-					return '<span class="label label-'.$color.'">'.$lbl.'</span>';
-                    
-                }
-            ],
-			[
-                'label' => 'Dev Status',
-                'format' => 'html',
-                
-                'value' => function($model){
-					if($model->developmentVersion){
-						return $model->developmentVersion->labelStatus;
-					}else{
-						return 'NONE';
-					}
-                    
-                }
-            ],
+            
 
             ['class' => 'yii\grid\ActionColumn',
-                 'contentOptions' => ['style' => 'width: 9%'],
                 'template' => '{update}',
                 //'visible' => false,
                 'buttons'=>[

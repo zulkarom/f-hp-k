@@ -24,7 +24,7 @@ $form = ActiveForm::begin(['id' => 'form-clo-plo']);
 
 <?php
 
-$plo_num = $model->plo_num;
+$plo_num = $model->ploNumber;
 
 
 
@@ -49,7 +49,7 @@ if($clos){
 	foreach($clos as $index => $clo){
 		echo '<tr>';
 		echo '<td style="vertical-align:middle;" >CLO'.$x.'</td>';
-		echo '<td style="vertical-align:middle;">' . $clo->clo_text . '<br /><i>'.$clo->clo_text_bi.'</i></td>';
+		echo '<td style="vertical-align:middle;">' . $clo->clo_text . '<br /><i>'.$clo->clo_text_bi.'</i> '.$clo->taxoPloBracket.'</td>';
 		
 		for($i=1;$i<=$plo_num;$i++){
 			$prop = 'PLO'.$i;

@@ -220,7 +220,7 @@ class CourseClo extends \yii\db\ActiveRecord
 	
 	public function getPlo(){
 		$html = '';
-		$plo_num = $this->defaultVersion->plo_num;
+		$plo_num = $this->defaultVersion->ploNumber;
 		$x=1;
 		for($c=1;$c<=$plo_num;$c++){
 			$prop = 'PLO'.$c;
@@ -231,6 +231,49 @@ class CourseClo extends \yii\db\ActiveRecord
 				$x++;
 			}
 		}
+		return $html;
+	}
+	
+	public function getTaxoPloBracket(){
+		$str = '';
+		$plo = $this->plo;
+		$taxo = $this->taxonomyStr;
+		
+		$str .= '('.$taxo.', '.$plo.')';
+		
+		return $str;
+	}
+	
+	public function getTaxonomyStr(){
+		$html = '';
+		$x=1;
+		for($i=1;$i<=6;$i++){
+			$prop = 'C'.$i;
+			if($this->$prop == 1){
+				$comma = $x == 1 ? '' : ', ';
+				$html .= $comma.$prop;
+				$x++;
+			}
+		}
+		
+		for($i=1;$i<=7;$i++){
+			$prop = 'P'.$i;
+			if($this->$prop == 1){
+				$comma = $x == 1 ? '' : ', ';
+				$html .= $comma.$prop;
+				$x++;
+			}
+		}
+		
+		for($i=1;$i<=5;$i++){
+			$prop = 'A'.$i;
+			if($this->$prop == 1){
+				$comma = $x == 1 ? '' : ', ';
+				$html .= $comma.$prop;
+				$x++;
+			}
+		}
+		
 		return $html;
 	}
 	

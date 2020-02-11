@@ -7,6 +7,9 @@ use Yii;
 use backend\models\Faculty;
 use backend\models\Department;
 use common\models\User;
+use backend\models\Component;
+
+
 
 /**
  * This is the model class for table "sp_course".
@@ -28,6 +31,8 @@ class Course extends \yii\db\ActiveRecord
 	public $course_label;
 	public $course_data;
 	public $course_code_name;
+	public $staff_pic;
+	public $staff_access;
 	
     /**
      * @inheritdoc
@@ -50,7 +55,7 @@ class Course extends \yii\db\ActiveRecord
 			[['course_name', 'course_name_bi', 'course_code', 'credit_hour', 'is_dummy'], 'required', 'on' => 'update'],
 			
 			
-            [['program_id', 'department_id', 'faculty_id', 'is_dummy', 'course_type'], 'integer'],
+            [['program_id', 'department_id', 'faculty_id', 'is_dummy', 'course_type', 'is_active', 'method_type'], 'integer'],
 			
             [['course_name', 'course_name_bi'], 'string', 'max' => 100],
 			
@@ -101,6 +106,10 @@ class Course extends \yii\db\ActiveRecord
 	
 	public function getCodeAndCourse(){
 		return $this->course_code . ' - ' . $this->course_name;
+	}
+	
+	public function getCodeCourseCredit(){
+		return strtoupper($this->course_code . ' - ' . $this->course_name . ' (' . $this->credit_hour . ' CREDIT HOURS)');
 	}
 	
 	public static function activeCourses(){
@@ -169,6 +178,12 @@ class Course extends \yii\db\ActiveRecord
 		return $this->hasMany(CourseVersion::className(), ['course_id' => 'id'])->orderBy('sp_course_version.created_at DESC');
 	}
 	
+	public function getComponent(){
+		return $this->hasOne(Component::className(), ['id' => 'component_id']);
+	}
 	
+	public function getCoor(){
+		return $this->hasOne(User::className(), ['id' => 'coordinator']);
+	}
 
 }

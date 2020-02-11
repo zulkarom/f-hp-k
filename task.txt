@@ -1,3 +1,11 @@
+ALTER TABLE `staff_position_status` ADD `status_cat` VARCHAR(50) NOT NULL AFTER `status_name`;
+UPDATE `staff_position_status` SET `status_cat` = 'Tetap' WHERE `staff_position_status`.`id` = 1; UPDATE `staff_position_status` SET `status_cat` = 'Tetap' WHERE `staff_position_status`.`id` = 2; UPDATE `staff_position_status` SET `status_cat` = 'Sementara' WHERE `staff_position_status`.`id` = 3; UPDATE `staff_position_status` SET `status_cat` = 'Kontrak' WHERE `staff_position_status`.`id` = 4; UPDATE `staff_position_status` SET `status_cat` = 'Kontrak' WHERE `staff_position_status`.`id` = 5; UPDATE `staff_position_status` SET `status_cat` = 'Pinjaman' WHERE `staff_position_status`.`id` = 6;
+ALTER TABLE `country` ADD UNIQUE(`country_code`);
+ALTER TABLE `staff` ADD `nationality` VARCHAR(10) NOT NULL DEFAULT 'MY' AFTER `is_academic`;
+ALTER TABLE `sp_course` ADD `method_type` TINYINT(1) NOT NULL COMMENT '1=classroom, 2=non-classroom' AFTER `is_active`
+ALTER TABLE `sp_course` CHANGE `method_type` `method_type` TINYINT(1) NOT NULL DEFAULT '1' COMMENT '1=classroom, 2=non-classroom';
+
+
 UPDATE `sp_assessment_cat` SET `cat_name` = 'Projek (Continuous Assessment)', `cat_name_bi` = 'Project (Continuous Assessment)' WHERE `sp_assessment_cat`.`id` = 6;
 UPDATE `sp_assessment_cat` SET `cat_name` = 'Projek (Final Assessment)', `cat_name_bi` = 'Project (Final Assessment)' WHERE `sp_assessment_cat`.`id` = 7;
 ===============meeting liza========================

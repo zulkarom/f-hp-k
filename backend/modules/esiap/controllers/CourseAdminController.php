@@ -580,7 +580,7 @@ class CourseAdminController extends Controller
 		
 	public function actionBulkmqf2(){
 		
-		$courses = Course::find()->all();
+		$courses = Course::find()->where(['faculty_id' => Yii::$app->params['faculty_id']])->all();
 		foreach($courses as $course){
 			$mqf2 = CourseVersion::findOne(['course_id' => $course->id, 'version_type_id' => 2]);
 			$ori = CourseVersion::find()->where(['course_id' => $course->id])
@@ -655,7 +655,7 @@ class CourseAdminController extends Controller
 	
 	public function actionBulkupdatepusatko(){
 		//die();////////////////////////stop
-		$courses = Course::find()->all();
+		$courses = Course::find()->where(['faculty_id' => Yii::$app->params['faculty_id']])->all();
 		foreach($courses as $course){
 			$version = CourseVersion::findOne(['course_id' => $course->id, 'version_type_id' => 2]);
 			if($version){
@@ -668,16 +668,10 @@ class CourseAdminController extends Controller
 							$staff = new CourseStaff;
 							$staff->crs_version_id = $version->id;
 							$staff->staff_id = $pic->staff_id;
-							if(!$staff->save()){
-								echo 'course staff failed';
-							}
-						}else{
-							echo 'dah ada';
+							$staff->save();
 						}
 						
 					}
-				}else{
-					echo 'no pic';
 				}
 				//staff
 		
@@ -695,7 +689,23 @@ class CourseAdminController extends Controller
 		
 		//plo 8 - 11
 		
-
+		$clos = CourseClo::find()->where(['crs_version_id' => $version->id])->all();
+		if($clos){
+			$x = 1;
+			foreach($clos as $clo){
+				for($i=1;$i<=11;$i++){
+					$prop = 'PLO'.$i;
+					if(($x == 1 and $i == 11) or ($x == 2 and $i == 8) ){
+						$clo->{$prop} = 1;
+					}else{
+						$clo->{$prop} = 0;
+					}
+					
+				}
+				$clo->save();
+				$x++;
+			}
+		}
 		
 		
 		//transferable value & leadership
@@ -719,10 +729,17 @@ class CourseAdminController extends Controller
 			$trans1->save();
 		}
 		
+		//slt assess 4 - 2
 		
+		$ass = CourseAssessment::find()->where(['crs_version_id' => $version->id])->all();
+		if($ass){
+			foreach($ass as $as){
+				$as->assess_f2f = 4;
+				$as->assess_nf2f = 2;
+				$as->save();
+			}
+		}
 		
-			}else{
-				echo 'no version';
 			}
 		}
 		

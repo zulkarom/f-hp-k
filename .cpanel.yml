@@ -1,5 +1,5 @@
 ---
 deployment:
  tasks:
- - export DEPLOYPATH=/home/fhpkumkedu/fhpkapp
- - /bin/cp -R /home/fhpkumkedu/repositories/f-hp-k $DEPLOYPATH
+ - export DEPLOYPATH=/home/fhpkportalumkedu/fhpkapp
+ - /bin/cp -R /home/fhpkportalumkedu/repositories/f-hp-k $DEPLOYPATH

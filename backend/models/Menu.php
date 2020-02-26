@@ -11,7 +11,7 @@ use backend\modules\erpd\models\Stats as ErpdStats;
 class Menu
 {
 	public static function programFocus(){
-		$program_focus = '';
+		$program_focus = [];
 		if(Yii::$app->controller->id == 'program' and Yii::$app->controller->module->id == 'esiap'){
 			switch(Yii::$app->controller->action->id){
 				case 'update': case 'report':case 'structure':
@@ -53,7 +53,7 @@ class Menu
 	}
 	
 	public static function courseFocus(){
-		$course_focus = '';
+		$course_focus = [];
 		if(Yii::$app->controller->id == 'course' and Yii::$app->controller->module->id == 'esiap'){
 			switch(Yii::$app->controller->action->id){
 				case 'update': case 'profile':case 'course-clo':

@@ -76,11 +76,13 @@ use backend\models\Menu;
 		
 		?>
 
-        <?=common\models\Menu::widget(
-            [
-                'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
-                'items' => [
-                    ['label' => 'MAIN MENU', 'options' => ['class' => 'header']],
+        <?php 
+		
+		
+		
+                  $menuItems = [
+
+					['label' => 'MAIN MENU', 'options' => ['class' => 'header']],
 					['label' => 'Dashboard', 'icon' => 'dashboard', 'url' => ['/site']],
 					Menu::courseFocus(),
 					Menu::programFocus(),
@@ -129,9 +131,15 @@ use backend\models\Menu;
 					
 
 
-                ],
-            ]
-        ) ?>
+                ];
+				
+		$favouriteMenuItems[] = ['label' => 'MAIN MENU', 'options' => ['class' => 'header']];
+		
+		echo dmstr\widgets\Menu::widget([
+    'items' => \yii\helpers\ArrayHelper::merge($favouriteMenuItems, $menuItems),
+]);
+
+				?>
 
     </section>
 

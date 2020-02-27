@@ -81,8 +81,6 @@ use backend\models\Menu;
 		
 		
                   $menuItems = [
-
-					['label' => 'MAIN MENU', 'options' => ['class' => 'header']],
 					['label' => 'Dashboard', 'icon' => 'dashboard', 'url' => ['/site']],
 					Menu::courseFocus(),
 					Menu::programFocus(),

@@ -129,7 +129,7 @@ $exportColumns = [
 			[
 				'attribute' => 'pub_year',
 				'contentOptions' => [ 'style' => 'width: 10%;' ],
-				'filter' => Html::activeDropDownList($searchModel, 'pub_year', $searchModel->myUniqueYear(),['class'=> 'form-control','prompt' => 'All']),
+				'filter' => Html::activeDropDownList($searchModel, 'pub_year', $searchModel->uniqueYear(),['class'=> 'form-control','prompt' => 'All']),
 			],
             [
 				'attribute' => 'pub_type',

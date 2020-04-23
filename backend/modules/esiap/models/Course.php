@@ -88,6 +88,21 @@ class Course extends \yii\db\ActiveRecord
 		return $this->hasMany(CoursePic::className(), ['course_id' => 'id']);
 	}
 	
+	public function getPicStr(){
+		$list = $this->coursePics;
+		$str = '';
+		if($list){
+			$i = 1;
+			foreach($list as $pic){
+				$br = $i == 1 ? '' : '<br />';
+				$str .= $br. strtoupper($pic->staff->user->fullname);
+				
+			$i++;
+			}
+		}
+		return $str;
+	}
+	
 	public function getCourseAccesses(){
 		return $this->hasMany(CourseAccess::className(), ['course_id' => 'id']);
 	}
@@ -160,6 +175,16 @@ class Course extends \yii\db\ActiveRecord
 	public function getPublishedVersion(){
 		return CourseVersion::findOne(['course_id' => $this->id, 'is_published' => 1]);
 
+	}
+	
+	public function getDefaultVersion(){
+		if($this->publishedVersion){
+			return $this->publishedVersion;
+		}else if($this->developmentVersion){
+			return $this->developmentVersion;
+		}else{
+			return false;
+		}
 	}
 	
 	public function getFaculty(){

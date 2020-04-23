@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use backend\modules\erpd\models\PubType;
+use backend\modules\erpd\models\Status;
 use kartik\grid\GridView;
 use kartik\export\ExportMenu;
 
@@ -152,7 +153,7 @@ $exportColumns = [
 			[
 				'attribute' => 'status',
                 'format' => 'html',
-				'filter' => Html::activeDropDownList($searchModel, 'status', [10 => 'SUBMIT', 20 => 'VERIFIED'],['class'=> 'form-control','prompt' => 'Choose Status']),
+				'filter' => Html::activeDropDownList($searchModel, 'status', Status::listStatusFilterAdmin(),['class'=> 'form-control','prompt' => 'Choose Status']),
 				'value' => function($model){
 					return $model->showStatus();
 				}

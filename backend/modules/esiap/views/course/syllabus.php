@@ -51,8 +51,8 @@ $week_num = 1;
 $arr_week = array();
 $array_week_sorting = array();
 $list_weeks = ['1' => '1 Week'];
-for($i=2;$i<=20;$i++){
-	$list_weeks[$i] = $i.' Weeks';
+for($ii=2;$ii<=20;$ii++){
+	$list_weeks[$ii] = $ii.' Weeks';
 }
 foreach($syllabus as $row){ ?>
 	<tr>
@@ -246,7 +246,9 @@ Modal::end();
 
 </div>
 
-<div class="col-md-4"><label>Mid-Semester Break After Week: </label></div>
+<div class="col-md-4"><label>Mid-Semester Break After Week: </label><br />
+<i style="font-size:12px">* mid-semester break will be inserted automatically in FK2 from this setting.</i>
+</div>
 
 <div class="col-md-3"><?php 
 $sem_break = json_decode($model->syllabus_break);

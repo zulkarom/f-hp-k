@@ -328,7 +328,7 @@ class CourseController extends Controller
 	}
 	
 	public function actionCourseSyllabus($course){
-		
+		//print_r(Yii::$app->request->post());die();
 		$model = $this->findDevelopmentVersion($course);
 		$syllabus = $model->syllabus;
 		
@@ -348,14 +348,16 @@ class CourseController extends Controller
 						$syl->scenario = 'saveall';
 						$syl->topics = Yii::$app->request->post('input-week-'.$i);
 						$syl->duration = Yii::$app->request->post('week-duration-'.$i);
-						//$syl->week_num = Yii::$app->request->post('week-num-'.$i);
+						$syl->week_num = '#1';
 						if(Yii::$app->request->post($i . '-clo')){
 							$clo = json_encode(Yii::$app->request->post($i . '-clo'));
 							$syl->clo = $clo;
 						}
 						
 						
-						$syl->save();
+						if(!$syl->save()){
+							$syl->flashError();
+						}
 					}
 				$i++;
 				}

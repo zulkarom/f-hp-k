@@ -183,7 +183,7 @@ foreach($syllabus as $row){ ?>
 	
 	<select class="form-control" id="week-duration-<?php echo $i ; ?>" name="week-duration-<?php echo $i ; ?>">
 		<?php 
-		foreach($weeks as $val => $week){
+		foreach($list_weeks as $val => $week){
 			$sel = $row->duration == $val ? 'selected' : '';
 			echo '<option value="'.$val.'" '.$sel.'>'.$week.'</option>';
 		}

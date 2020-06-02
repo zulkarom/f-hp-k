@@ -50,6 +50,10 @@ $i = 1;
 $week_num = 1;
 $arr_week = array();
 $array_week_sorting = array();
+$list_weeks = ['1' => '1 Week'];
+for($i=2;$i<=20;$i++){
+	$list_weeks[$i] = $i.' Weeks';
+}
 foreach($syllabus as $row){ ?>
 	<tr>
 	<td>
@@ -175,10 +179,7 @@ foreach($syllabus as $row){ ?>
 	
 	<td>
 	
-	<?php 
-	$weeks = ['1' => '1 Week','2' => '2 Weeks','3' => '3 Weeks','4' => '4 Weeks','5' => '5 Weeks'];
 	
-	?>
 	
 	<select class="form-control" id="week-duration-<?php echo $i ; ?>" name="week-duration-<?php echo $i ; ?>">
 		<?php 

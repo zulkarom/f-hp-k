@@ -53,7 +53,11 @@ use yii\helpers\Url;
       </tr>
 	   <tr>
         <td><b>COURSE CLASSIFICATION</b></td>
-        <td><?=$model->classification->class_name_bi?></td>
+        <td><?php 
+		if($model->classification){
+			echo $model->classification->class_name_bi;
+		}
+		?></td>
       </tr>
 	  <tr>
         <td><b>CREDIT HOUR</b></td>
@@ -594,8 +598,9 @@ INDEPENDENT LEARNING FOR ASSESSMENT<br />
 	
 	$arrFormAss = "";
 	$i=1;
+	$fom = 0;
 	if($assdirect){
-		$fom = 0;
+		
 		foreach($assdirect as $rhead){
 			$id = $rhead->id;
 

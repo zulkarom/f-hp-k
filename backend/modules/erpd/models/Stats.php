@@ -323,6 +323,7 @@ class Stats
 		->andWhere(['>=', 'pub_year', $last_five])
 		->andWhere(['<=', 'pub_year', $curr_year])
 		->groupBy('pub_year')
+		->orderBy('pub_year ASC')
 		->all();
 	}
 	
@@ -335,7 +336,8 @@ class Stats
 		->where(['status' => 50, 'rp_researcher.staff_id' => Yii::$app->user->identity->staff->id])
 		->andWhere(['>=', 'YEAR(date_start)', $last_five])
 		->andWhere(['<=', 'YEAR(date_start)', $curr_year])
-		->groupBy('YEAR(date_start)')
+		->groupBy('res_label')
+		->orderBy('res_label ASC')
 		->all();
 	}
 }

@@ -317,7 +317,7 @@ class Stats
 		$curr_year = date('Y') + 0;
 		$last_five = $curr_year - 4;
 		return Publication::find()
-		->select('rp_publication.id, pub_year as pub_label, COUNT(pub_year) as pub_data')
+		->select('pub_year as pub_label, COUNT(pub_year) as pub_data')
 		->joinWith(['pubTags'])
 		->where(['status' => 50, 'rp_pub_tag.staff_id' => Yii::$app->user->identity->staff->id])
 		->andWhere(['>=', 'pub_year', $last_five])

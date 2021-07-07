@@ -291,7 +291,7 @@ class Stats
 		$last_five = $curr_year - 4;
 		
 		return Publication::find()
-		->select('id, pub_year as pub_label, COUNT(id) as pub_data')
+		->select('pub_year as pub_label, COUNT(id) as pub_data')
 		->where(['status' => 50])
 		->andWhere(['>=', 'pub_year', $last_five])
 		->andWhere(['<=', 'pub_year', $curr_year])
@@ -305,7 +305,7 @@ class Stats
 		$curr_year = date('Y') + 0;
 		$last_five = $curr_year - 4;
 		return Research::find()
-		->select('id, YEAR(date_start) as res_label, COUNT(id) as res_data')
+		->select('YEAR(date_start) as res_label, COUNT(id) as res_data')
 		->where(['status' => 50])
 		->andWhere(['>=', 'YEAR(date_start)', $last_five])
 		->andWhere(['<=', 'YEAR(date_start)', $curr_year])
@@ -323,7 +323,6 @@ class Stats
 		->andWhere(['>=', 'pub_year', $last_five])
 		->andWhere(['<=', 'pub_year', $curr_year])
 		->groupBy('pub_year')
-		->orderBy('pub_year ASC')
 		->all();
 	}
 	
@@ -336,8 +335,7 @@ class Stats
 		->where(['status' => 50, 'rp_researcher.staff_id' => Yii::$app->user->identity->staff->id])
 		->andWhere(['>=', 'YEAR(date_start)', $last_five])
 		->andWhere(['<=', 'YEAR(date_start)', $curr_year])
-		->groupBy('res_label')
-		->orderBy('res_label ASC')
+		->groupBy('YEAR(date_start)')
 		->all();
 	}
 }

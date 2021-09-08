@@ -51,7 +51,7 @@ class CourseAssessment extends \yii\db\ActiveRecord
 			[['assess_f2f', 'assess_nf2f', 'assess_f2f_tech'], 'number'],
 			
             [['created_at', 'updated_at'], 'safe'],
-            [['assess_name', 'assess_name_bi'], 'string', 'max' => 100],
+            [['assess_name', 'assess_name_bi'], 'string', 'max' => 50],
         ];
     }
 
@@ -79,6 +79,43 @@ class CourseAssessment extends \yii\db\ActiveRecord
 
 	public function getAssessmentCat(){
         return $this->hasOne(AssessmentCat::className(), ['id' => 'assess_cat']);
+    }
+
+    public function getCloId(){
+        return $this->hasOne(CourseCloAssessment::className(), ['assess_id' => 'id']);
+    }
+
+    public function cloList(){
+		if($this->courseVersion->clos){
+			$list = $this->courseVersion->clos;
+			$array = array();
+			if($list){
+				$i = 1;
+				foreach ($list as $clo) {
+					$array[$clo->id] = $i;
+					$i++;
+				}
+			}
+		}
+        
+        return $array;
+    }
+
+    public function getCloNumber(){
+        $list = $this->cloList();
+        
+		if($this->cloId){
+			$clo = $this->cloId;
+			//echo '='. $clo->clo_id. '=/';
+			if(array_key_exists($clo->clo_id, $list)){
+			    
+			   return $list[$clo->clo_id]; 
+			}
+		}
+		//echo '<br /><br /><br /><br />';
+		//print_r($list);die();
+		return 0;
+        
     }
 	
 	public function getAssessmentPercentage(){

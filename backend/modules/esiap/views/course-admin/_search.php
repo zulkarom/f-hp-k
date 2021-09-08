@@ -13,14 +13,24 @@ use backend\modules\esiap\models\Program;
 
 <?php $form = ActiveForm::begin([
 	'id' => 'form-index-course',
-    'action' => ['index'],
     'method' => 'get',
 ]); ?>
     
 <div class="row">
-<div class="col-md-7"><?= $form->field($model, 'search_course', ['addon' => ['prepend' => ['content'=>'<span class="glyphicon glyphicon-search"></span>']]])->label(false)->textInput(['placeholder' => "search course..."]) ?></div>
+<div class="col-md-6"><?= $form->field($model, 'search_course', ['addon' => ['prepend' => ['content'=>'<span class="glyphicon glyphicon-search"></span>']]])->label(false)->textInput(['placeholder' => "search course..."]) ?>
+</div>
 
-<div class="col-md-5">
+<div class="col-md-3">
+
+<?php 
+
+echo $form->field($model, 'study_level')->label(false)->dropDownList($model->getStudyLevelList(), ['prompt' => 'Select Level' ]);
+
+ ?>
+
+</div>
+
+<div class="col-md-3">
 
 <?php 
 if(Yii::$app->params['faculty_id'] == 21 ){
@@ -28,12 +38,14 @@ if(Yii::$app->params['faculty_id'] == 21 ){
         ArrayHelper::map(Component::find()->all(),'id', 'name'), ['prompt' => 'Select Component' ]);
 }else{
 	echo $form->field($model, 'search_cat')->label(false)->dropDownList(
-        ArrayHelper::map(Program::find()->where(['faculty_id' => Yii::$app->params['faculty_id'], 'trash' => 0])->all(),'id', 'pro_name_short'), ['prompt' => 'Select Program' ]);
+        ArrayHelper::map(Program::find()->where(['faculty_id' => Yii::$app->params['faculty_id'], 'status' => 1, 'trash' => 0])->all(),'id', 'pro_name_short'), ['prompt' => 'Select Program' ]);
 }
 
  ?>
 
 </div>
+
+
 
 </div>
 
@@ -41,10 +53,13 @@ if(Yii::$app->params['faculty_id'] == 21 ){
 
 
 <?php 
-
 $this->registerJs('
+$("#'.$element.'").change(function(){
+	$("#form-index-course").submit();
+});
 
-$("#courseadminsearch-search_cat").change(function(){
+
+$("#courseadminsearch-study_level").change(function(){
 	$("#form-index-course").submit();
 });
 

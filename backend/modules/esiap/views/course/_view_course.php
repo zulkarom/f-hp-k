@@ -22,6 +22,10 @@ use yii\helpers\Url;
         <td width="20%"><b>VERSION</b></td>
         <td><?=$version->version_name?></td>
       </tr>
+	  <tr>
+        <td width="20%"><b>DOCUMENTS</b></td>
+        <td><?=$model->reportList('View Doc Report', $version->id)?></td>
+      </tr>
 		  
 		  <?php
 	  }
@@ -312,6 +316,8 @@ use yii\helpers\Url;
 		</td>
       </tr>
 	  
+	
+	  
     </tbody>
   </table>
 </div>
@@ -322,7 +328,7 @@ use yii\helpers\Url;
     <thead>
       <tr>
 	  <th>#</th>
-        <th>COURSE LEARNING OUTDOME</th>
+        <th>COURSE LEARNING OUTCOMES</th>
         <th>PLO</th>
         <th>TAXONOMY</th>
 		<th>TEACHING METHODS</th>
@@ -550,7 +556,7 @@ $i++;
 </table></div>
 
 
-<table class="table table-striped table-hover">
+<div class="table-responsive"><table class="table table-striped table-hover">
 <thead>
 	<tr>
 		<th rowspan="2" width="30%" style="vertical-align:bottom"><b>
@@ -633,9 +639,9 @@ INDEPENDENT LEARNING FOR ASSESSMENT<br />
 	
 
 	
-</table>
+</table></div>
 
-<table class="table table-striped table-hover">
+<div class="table-responsive"><table class="table table-striped table-hover">
 	
 
 	
@@ -747,7 +753,7 @@ if($slt->is_practical == 1){
 	
 	
 	
-</table>
+</table></div>
 <br /><br />
 
 <div class="table-responsive">
@@ -774,6 +780,7 @@ if($version->references){
 		
 		</td>
       </tr>
+	    
 </tbody>
 </table>
 </div>

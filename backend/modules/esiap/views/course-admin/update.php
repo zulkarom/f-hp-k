@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = 'Update';
 
 <?php $form = ActiveForm::begin(['id' => 'update-course']); ?>
 
-
+<div class="form-group"><?= Html::a("<span class='glyphicon glyphicon-arrow-left'></span> BACK", ['course-admin/index'] ,['class' => 'btn btn-default']) ?></div>
 <div class="box box-primary">
 <div class="box-header">
 <div class="box-title">Main Setting</div>
@@ -63,6 +63,8 @@ $this->params['breadcrumbs'][] = 'Update';
 
 </div>
 
+
+
 <?php 
 
 if(Yii::$app->params['faculty_id'] == 21){
@@ -73,9 +75,18 @@ if(Yii::$app->params['faculty_id'] == 21){
 
 ?>
 	
-<?= $form->field($model, 'program_id')->dropDownList(
-        ArrayHelper::map(Program::find()->where(['faculty_id' => Yii::$app->params['faculty_id'], 'trash' => 0])->all(),'id', 'pro_name'), ['prompt' => 'Please Select' ]
+
+<div class="row">
+	<div class="col-md-8">
+	<?= $form->field($model, 'program_id')->dropDownList(
+        ArrayHelper::map(Program::find()->where(['faculty_id' => Yii::$app->params['faculty_id'], 'trash' => 0])->orderBy('pro_level ASC, id ASC')->all(),'id', 'pro_name'), ['prompt' => 'Please Select' ]
     ) ?>
+	</div>
+		<div class="col-md-4">
+<?= $form->field($model, 'study_level')->dropDownList($model->getStudyLevelList(), ['prompt' => 'Please Select' ]) ?>
+</div>
+</div>
+
 
 
 
@@ -117,7 +128,7 @@ echo $form->field($model, 'faculty_id')->dropDownList(
 
 <div class="form-group">
 
-<label class="control-label">Staff in charge for development</label>
+<label class="control-label">Course Owner</label>
 
 <?php 
 
@@ -136,7 +147,7 @@ echo Select2::widget([
 
 <div class="form-group">
 
-<label class="control-label">Staff can view</label>
+<label class="control-label">Course Viewer</label>
 
 <?php 
 
@@ -162,7 +173,7 @@ echo Select2::widget([
 
 
     <div class="form-group">
-	<?= Html::a("<span class='glyphicon glyphicon-arrow-left'></span> BACK", ['course-admin/index'] ,['class' => 'btn btn-default']) ?>
+	
         <?= Html::submitButton('<span class="glyphicon glyphicon-floppy-disk"></span> SAVE COURSE', ['class' => 'btn btn-success']) ?>
     </div>
 

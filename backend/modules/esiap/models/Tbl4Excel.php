@@ -35,6 +35,7 @@ class Tbl4Excel
 	public $sltTotalContentRow;
 	public $sltTotalAssessConRow;
 	public $sltTotalAssessSumRow;
+	public $team = array();
 	
 	public function generateExcel(){
 		$this->start();
@@ -1177,11 +1178,11 @@ e-Learning')
 			foreach($arr_all as $rt){
 				$wk = $i == 1 ? $show_week . ".  " : '';
 				$br = $i == 1 ? '' : "\n";
-				$topic .= $br . $wk . $rt->top_bi;
+				$topic .= $br . $wk . trim($rt->top_bi);
 				$row_count++;
 				if($rt->sub_topic){
 					foreach($rt->sub_topic as $rst){
-					$topic .= "\n" . '     - ' . $rst->sub_bi;
+					$topic .= "\n" . '     - ' . trim($rst->sub_bi);
 					$row_count++;
 					}
 				}
@@ -1404,7 +1405,7 @@ e-Learning')
 			foreach($this->model->courseAssessmentFormative as $rf){
 					$per = $rf->as_percentage + 0;
 					$f2f = $rf->assess_f2f;
-					$nf2f = $rf->assess_f2f_tech;
+					$nf2f = $rf->assess_nf2f + $rf->assess_f2f_tech;
 					$data = [$per, $f2f, $nf2f];
 					
 					$this->item10SltAssessConText($i, $rf->assess_name_bi, $data);
@@ -1586,7 +1587,7 @@ e-Learning')
 		
 
 		$this->sheet
-			->setCellValue('C' . $curr_row, 'Continuous Assessment')
+			->setCellValue('C' . $curr_row, 'Final Assessment')
 			->setCellValue('J' . $curr_row, 'Percentage (%) ')
 			->setCellValue('J' . $curr_row, 'Percentage (%) ')
 			->setCellValue('K' . $curr_row, 'F2F')
@@ -1601,7 +1602,7 @@ e-Learning')
 			foreach($this->model->courseAssessmentSummative as $rf){
 					$per = $rf->as_percentage + 0;
 					$f2f = $rf->assess_f2f;
-					$nf2f = $rf->assess_f2f_tech;
+					$nf2f = $rf->assess_nf2f + $rf->assess_f2f_tech;
 					$data = [$per, $f2f, $nf2f];
 					
 					$this->item10SltAssessSumText($i, $rf->assess_name_bi, $data);

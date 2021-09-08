@@ -2,47 +2,14 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 
-$this->title = 'e-SIAP MODULE';
+$this->title = 'Course Management';
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 
-<i>Electronic Structured and Integrated Academic Package</i>
-<br /><br />
-
-
-<div class="box box-primary">
+<div class="box">
 <div class="box-header">
-<h3 class="box-title">My Course(s)</h3>
-</div>
-<div class="box-body">
-
-<div class="table-responsive"><?= GridView::widget([
-        'dataProvider' => $dataProvider2,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-			'course.course_code',
-            'course.course_name',
-			'course.course_name_bi',
-			'course.credit_hour',
-
-			[
-                'label' => 'Report',
-                'format' => 'raw',
-                'value' => function($model){
-					return $model->course->reportList('View Doc Report');
-                    
-                }
-            ]
-            ,
-        ],
-    ]); ?></div></div>
-</div>
-
-
-<div class="box box-danger">
-<div class="box-header">
-<h3 class="box-title">Under Development Course(s)</h3>
+<h3 class="box-title">Course Owner</h3>
 </div>
 <div class="box-body"><div class="table-responsive"><?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -55,7 +22,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 
                 'value' => function($model){
 					$course = $model->course;
-					$version = $course->developmentVersion;
+					if($course){
+						$version = $course->developmentVersion;
 					
 					
 						if($version){
@@ -64,6 +32,8 @@ $this->params['breadcrumbs'][] = $this->title;
 							return $course->course_code . ' ' . strtoupper($course->course_name) . '<br /><i>' . strtoupper($course->course_name_bi) . '</i>';
 						}
 						
+					}
+					
 					
 					
                     
@@ -73,7 +43,10 @@ $this->params['breadcrumbs'][] = $this->title;
 			[
 				'label' => 'Credit',
 				'value' => function($model){
-					return $model->course->credit_hour;
+					if($model->course){
+						return $model->course->credit_hour;
+					}
+					
 				}
 				
 			],
@@ -81,11 +54,14 @@ $this->params['breadcrumbs'][] = $this->title;
 			[
 				'label' => 'Version',
 				'value' => function($model){
-					if($model->course->developmentVersion){
+					if($model->course){
+						if($model->course->developmentVersion){
 						return $model->course->developmentVersion->version_name;
 					}else{
 						return 'NONE';
 					}
+					}
+					
 					
 				}
 				
@@ -96,12 +72,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 
                 'value' => function($model){
-					if($model->course->developmentVersion){
+					if($model->course){
+						if($model->course->developmentVersion){
 						
 						return $model->course->developmentVersion->labelStatus;
 					}else{
 						return 'NONE';
 					}
+					}
+					
                     
                 }
             ],
@@ -110,22 +89,94 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Report',
                 'format' => 'raw',
                 'value' => function($model){
-					if($model->course->developmentVersion){
+					if($model->course){
+						if($model->course->developmentVersion){
 						return $model->course->reportList('View Doc Report', $model->course->developmentVersion->id);
 					}else{
 						return 'NONE';
 					}
+					}
+					
 					
                     
                 }
             ],
+			
+			[
+				'label' => 'Update',
+			//	'contentOptions' => ['style' => 'width: 45%'],
+				'format' => 'html',
+				'value' => function($model){
+					if($model->course){
+						$course = $model->course;
+					
+					$version = $course->developmentVersion;
+					
+					
+						if($version){
+							return Html::a( '<span class="fa fa-pencil"></span> Update',['/esiap/course/view-course/', 'course' => $course->id], ['class' => 'btn btn-primary btn-sm']);
+						}
+					}
+					
+					
+					
+				}
+				
+			],
 
            
         ],
     ]); ?></div></div>
 </div>
 
+<div class="box">
+<div class="box-header">
+<h3 class="box-title">Course View</h3>
+</div>
+<div class="box-body">
+
+<div class="table-responsive"><?= GridView::widget([
+        'dataProvider' => $dataProvider2,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+			'course.course_code',
+            'course.course_name',
+			'course.course_name_bi',
+			'course.credit_hour',
+			
+			[
+				'label' => 'Course Owner',
+				'format' => 'html',
+				'value' => function($model){
+					if($model->course){
+						return $model->course->picStr;
+					}
+					
+				}
+				
+			],
+
+			[
+                'label' => 'Report',
+                'format' => 'raw',
+                'value' => function($model){
+					if($model->course){
+						return $model->course->reportList('View Doc Report');
+					}
+					
+                    
+                }
+            ]
+            ,
+        ],
+    ]); ?></div></div>
+</div>
+
+
+
+
 <?php 
+/* 
 if($dataProvider4->getCount() > 0){?>
 <div class="box box-primary">
 <div class="box-header">
@@ -191,4 +242,4 @@ if($dataProvider3->getCount() > 0){?>
     ]); ?></div></div>
 </div>
 
-<?php } ?>
+<?php }  */?>

@@ -5,11 +5,12 @@ namespace backend\modules\esiap\models;
 
 use Yii;
 use yii\helpers\Url;
+use yii\bootstrap\Modal;
 use backend\models\Faculty;
 use backend\models\Department;
 use common\models\User;
 use backend\models\Component;
-use yii\bootstrap\Modal;
+use backend\modules\courseFiles\models\Material;
 
 
 
@@ -36,6 +37,7 @@ class Course extends \yii\db\ActiveRecord
 	public $staff_pic;
 	public $staff_access;
 	public $progress;
+	public $version_id = null;
 	
     /**
      * @inheritdoc
@@ -52,7 +54,7 @@ class Course extends \yii\db\ActiveRecord
     {
         return [
 			
-			[['course_name', 'course_name_bi', 'course_code', 'credit_hour', 'is_dummy', 'faculty_id', 'course_type'], 'required', 'on' => 'create'],
+			[['course_name', 'course_name_bi', 'course_code', 'credit_hour', 'is_dummy', 'faculty_id', 'course_type', 'study_level'], 'required', 'on' => 'create'],
 			
 			[['course_name', 'course_name_bi', 'course_code', 'credit_hour', 'is_dummy'], 'required', 'on' => 'update'],
 			
@@ -62,7 +64,7 @@ class Course extends \yii\db\ActiveRecord
 			
             [['course_name', 'course_name_bi'], 'string', 'max' => 100],
 			
-            [['course_code'], 'string', 'max' => 50],
+            [['course_code', 'study_level'], 'string', 'max' => 50],
 			
 			[['credit_hour'], 'integer'],
 			
@@ -84,9 +86,14 @@ class Course extends \yii\db\ActiveRecord
 			'is_developed' => 'Is Active',
 			'program_id' => 'Program',
 			'faculty_id' => 'Faculty',
+            'study_level' => 'Level',
 			'department_id' => 'Department',
 			'course_class' => 'Course Classification'
         ];
+    }
+    
+    public function getStudyLevelList(){
+        return ['UG' => 'Undergraduate', 'PG' => 'Postgraduate'];
     }
 	
 	
@@ -137,6 +144,18 @@ class Course extends \yii\db\ActiveRecord
 				}
 			}
 		}
+		
+		if(array_key_exists('teaching-load',Yii::$app->modules)){
+			$crs = new \backend\modules\teachingLoad\models\Course;
+			$crs->id = $this->id;
+			$coor = $crs->currentCoordinator();
+			
+			if( $coor > 0 and $coor = Yii::$app->user->identity->staff->id ) {
+				
+				return true;
+			}
+		}
+		
 		return false;
 	}
 	
@@ -179,6 +198,15 @@ class Course extends \yii\db\ActiveRecord
 		return $array;
 	}
 	
+	public function activeCoursesArray(){
+		$result = $this->activeCourses();
+		$array[0] = 'Tiada / Nil';
+		foreach($result as $row){
+			$array[$row->id] = $row->course_name .' - '.$row->course_code;
+		}
+		return $array;
+	}
+	
 	public function flashError(){
         if($this->getErrors()){
             foreach($this->getErrors() as $error){
@@ -193,7 +221,19 @@ class Course extends \yii\db\ActiveRecord
     }
 	
 	public function getDevelopmentVersion(){
-		return CourseVersion::findOne(['course_id' => $this->id, 'is_developed' => 1]);
+	    if($this->version_id){
+	        return  CourseVersion::findOne(['course_id' => $this->id, 'id' => $this->version_id]);
+	    }else{
+	        return CourseVersion::findOne(['course_id' => $this->id, 'is_developed' => 1]);
+	    }
+	    
+	    
+		/* $dev = CourseVersion::findOne(['course_id' => $this->id, 'is_developed' => 1]);
+		if($dev){
+		    return $dev;
+		}else{
+		    return CourseVersion::find()->where(['course_id' => $this->id, 'status' => 0])->orderBy('created_at DESC')->one();
+		} */
 
 	}
 	
@@ -206,13 +246,35 @@ class Course extends \yii\db\ActiveRecord
 		return $this->hasMany(CourseVersion::className(), ['course_id' => 'id'])->orderBy('created_at DESC');
 	}
 	
+	public function getCourseVersions(){
+		return $this->hasMany(CourseVersion::className(), ['course_id' => 'id']);
+	}
+	
+	public function getVersionSubmit(){
+		return $this->hasMany(CourseVersion::className(), ['course_id' => 'id'])->where(['>=', 'status', 10])->orderBy('created_at DESC');
+	}
+	
+	public function getVersionNotArchived(){
+	    return $this->hasMany(CourseVersion::className(), ['course_id' => 'id'])->where(['<>', 'status', 80])->orderBy('created_at DESC');
+	}
+	
+	public function getVersion(){
+	    return $this->hasMany(CourseVersion::className(), ['course_id' => 'id'])->where(['>=', 'status', 10])->orderBy('created_at DESC');
+	}
+	
+	public function getLatestVersion(){
+	    return CourseVersion::find()->where(['course_id' => $this->id])->orderBy('created_at DESC')->one();
+	}
+	
 	public function getDefaultVersion(){
 		if($this->publishedVersion){
 			return $this->publishedVersion;
 		}else if($this->developmentVersion){
 			return $this->developmentVersion;
+		}else if($this->latestVersion){
+		    return $this->latestVersion;
 		}else{
-			return false;
+		    return false;
 		}
 	}
 	
@@ -236,6 +298,10 @@ class Course extends \yii\db\ActiveRecord
 		return $this->hasMany(CourseVersion::className(), ['course_id' => 'id'])->orderBy('sp_course_version.created_at DESC');
 	}
 	
+	public function getActiveMaterials(){
+	    return $this->hasMany(Material::className(), ['course_id' => 'id'])->where(['is_active' => 1]);
+	}
+	
 	public function getComponent(){
 		return $this->hasOne(Component::className(), ['id' => 'component_id']);
 	}
@@ -255,8 +321,8 @@ class Course extends \yii\db\ActiveRecord
 		}else{
 			$version = $this->defaultVersion;
 		}
-		
-		if($version){
+		$html = '';
+		if($version !==null){
 			$html = '<button type="button" class="btn btn-default" data-toggle="modal" data-target="#course-'.$this->id.'-version-'.$version->id .'"><span class="fa fa-files-o"></span> View Documents</button>
 
 		<div id="course-'.$this->id.'-version-'.$version->id .'" class="fade modal" role="dialog" tabindex="-1" style="display: none;">
@@ -266,7 +332,7 @@ class Course extends \yii\db\ActiveRecord
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 		'.$this->course_code.' '. strtoupper($this->course_name).'
 		</div>
-		<div class="modal-body">
+		<div class="modal-body" align="left">
 		';
 //<a target="_blank" href="'.Url::to(['/esiap/course/tbl4', 'course' => $this->id, 'version' => $version->id]).'" class="btn btn-app"><i class="fa fa-file-pdf-o"></i> TABLE 4 v1.0</a>
 		$html .= '
@@ -278,22 +344,26 @@ class Course extends \yii\db\ActiveRecord
 		
 		</div>
 	  
-		<a target="_blank" href="'.Url::to(['/esiap/course/html-view', 'course' => $this->id, 'version' => $version->id]).'" class="btn btn-app"> <i class="fa fa-globe"></i> HTML</a>
+		<a target="_blank" href="'.Url::to(['/esiap/course/html-view', 'course' => $this->id, 'version' => $version->id]).'" class="btn btn-app"> <i class="fa fa-globe" style="color:blue"></i> HTML</a>
 		
 		
-		<a target="_blank" href="'.Url::to(['/esiap/course/fk1', 'course' => $this->id, 'version' => $version->id]).'" class="btn btn-app"><i class="fa fa-file-pdf-o"></i> FK01</a>
+		<a target="_blank" href="'.Url::to(['/esiap/course/fk1', 'course' => $this->id, 'version' => $version->id]).'" class="btn btn-app"><i class="fa fa-file-pdf-o" style="color:red"></i> FK01</a>
 		
-		<a target="_blank" href="'.Url::to(['/esiap/course/fk2', 'course' => $this->id, 'version' => $version->id]).'" class="btn btn-app"><i class="fa fa-file-pdf-o"></i> FK02</a>
+		<a target="_blank" href="'.Url::to(['/esiap/course/fk2', 'course' => $this->id, 'version' => $version->id]).'" class="btn btn-app"><i class="fa fa-file-pdf-o" style="color:red"></i> FK02</a>
 		
-		<a target="_blank" href="'.Url::to(['/esiap/course/fk3', 'course' => $this->id, 'version' => $version->id]).'" class="btn btn-app"><i class="fa fa-file-pdf-o"></i> FK03</a>
+		<a target="_blank" href="'.Url::to(['/esiap/course/fk3', 'course' => $this->id, 'version' => $version->id]).'" class="btn btn-app"><i class="fa fa-file-pdf-o" style="color:red"></i> FK03</a>
 		
 		<br />
 		
 		
 		
-		<a target="_blank" href="'.Url::to(['/esiap/course/tbl4-excel', 'course' => $this->id, 'version' => $version->id]).'" class="btn btn-app"><i class="fa fa-file-excel-o"></i> TABLE 4 v1.0</a>
+		<a target="_blank" href="'.Url::to(['/esiap/course/tbl4-excel', 'course' => $this->id, 'version' => $version->id]).'" class="btn btn-app"><i class="fa fa-file-excel-o" style="color:green"></i> TABLE 4 v1.0</a>
 		
-		<a target="_blank" href="'.Url::to(['/esiap/course/tbl4-excel2', 'course' => $this->id, 'version' => $version->id]).'" class="btn btn-app"><i class="fa fa-file-excel-o"></i> TABLE 4 v2.0</a>
+		<a target="_blank" href="'.Url::to(['/esiap/course/tbl4', 'course' => $this->id, 'version' => $version->id]).'" class="btn btn-app"><i class="fa fa-file-pdf-o" style="color:red"></i> TABLE 4 v1.0</a>
+		
+		<a target="_blank" href="'.Url::to(['/esiap/course/tbl4-excel2', 'course' => $this->id, 'version' => $version->id]).'" class="btn btn-app"><i class="fa fa-file-excel-o" style="color:green"></i> TABLE 4 v2.0</a>
+		
+		<a target="_blank" href="'.Url::to(['/esiap/course/tbl4-pdf', 'course' => $this->id, 'version' => $version->id]).'" class="btn btn-app"><i class="fa fa-file-pdf-o" style="color:red"></i> TABLE 4 v2.0</a>
 		
 		';
 	  
